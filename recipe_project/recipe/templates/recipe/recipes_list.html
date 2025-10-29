@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes List</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { color: #333; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        img { border-radius: 6px; object-fit: cover; }
+        a { color: #4c51bf; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Recipes' list</h1>
+    <table>
+        <tr>
+            <th>Recipe Title</th>
+            <th>Image</th>
+        </tr>
+        {% for object in object_list %}
+        <tr>
+            <td>
+                <a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
+            </td>
+            <td>
+                {% if object.pic %}
+                    <img src="{{ object.pic.url }}" alt="{{ object.name }}" width="150" height="120" />
+                {% else %}
+                    <span>No image</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No recipes available yet.</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
