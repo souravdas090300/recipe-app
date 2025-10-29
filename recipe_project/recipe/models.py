@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 
 class Recipe(models.Model):
@@ -8,11 +9,21 @@ class Recipe(models.Model):
 	comma-separated string (e.g., "salt, water, sugar").
 	"""
 
+	CATEGORY_CHOICES = [
+		('breakfast', 'Breakfast'),
+		('lunch', 'Lunch'),
+		('dinner', 'Dinner'),
+		('dessert', 'Dessert'),
+		('snack', 'Snack'),
+	]
+
 	name = models.CharField(max_length=120)
 	cooking_time = models.PositiveIntegerField(help_text='in minutes')
 	# Store ingredients as a comma-separated string (TextField)
 	ingredients = models.TextField(help_text='Comma-separated list of ingredients')
 	description = models.TextField(blank=True, null=True)
+	category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='lunch')
+	# Image for the recipe; stored under MEDIA_ROOT/recipes; optional default if not provided
 	pic = models.ImageField(upload_to='recipes', default='no_picture.jpg')
 	# ForeignKey relationship with User for recipe ownership (one user can have many recipes)
 	user = models.ForeignKey("auth.User", on_delete=models.CASCADE, related_name='recipes')
@@ -43,3 +54,7 @@ class Recipe(models.Model):
 		if self.cooking_time >= 10 and num_ingredients < 4:
 			return 'Intermediate'
 		return 'Hard'
+
+	def get_absolute_url(self) -> str:
+		"""Return the absolute URL for this recipe's detail page."""
+		return reverse('recipe:recipe-detail', kwargs={'pk': self.pk})

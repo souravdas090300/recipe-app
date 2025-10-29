@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,97 +6,126 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe App - Home</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+        :root { --brand:#667eea; --text:#1f2937; }
+        * { box-sizing: border-box; }
+        body { margin:0; font-family: 'Segoe UI', Arial, sans-serif; color: white; height: 100vh; overflow-x: hidden; }
+        header {
+            position: absolute; top:0; left:0; right:0; z-index:10;
+            display:flex; align-items:center; justify-content:space-between;
+            padding:14px 24px; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px);
+        }
+        .brand { font-weight:700; color: white; font-size: 20px; }
+        .nav { display:flex; gap:12px; }
+        .nav a { text-decoration:none; color:white; padding:8px 12px; border-radius:8px; transition: background 0.2s; }
+        .nav a:hover { background:rgba(255,255,255,0.2); }
+
+        .hero-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102,126,234,0.4), rgba(118,75,162,0.4));
+            z-index: 2;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-        }
-        .container {
-            background: white;
-            padding: 50px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            justify-content: center;
             text-align: center;
+            padding: 0 20px;
+        }
+        h1 { 
+            font-size: clamp(36px, 6vw, 64px); 
+            margin: 0 0 16px; 
+            color: white; 
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+        }
+        .sub { 
+            color: rgba(255,255,255,0.95); 
+            margin-bottom: 24px; 
+            font-size: clamp(16px, 2.5vw, 20px);
             max-width: 600px;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.4);
         }
-        h1 {
-            color: #667eea;
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        p {
-            color: #555;
-            font-size: 20px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        .features {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 40px;
-        }
-        .feature {
-            text-align: center;
-            padding: 20px;
-        }
-        .feature-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-        .feature-title {
-            font-weight: bold;
-            color: #764ba2;
-            margin-bottom: 10px;
-        }
-        .cta-button {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 15px 40px;
+        .btn-primary { 
+            background: var(--brand); 
+            color: white; 
+            padding: 14px 32px; 
+            border-radius: 50px; 
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
             font-size: 18px;
-            border-radius: 25px;
-            cursor: pointer;
-            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
         }
-        .cta-button:hover {
-            background: #764ba2;
+        .btn-primary:hover { 
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+        .cta-row { 
+            display:flex; 
+            gap:14px; 
+            margin-top:16px; 
+            flex-wrap: wrap; 
+            justify-content: center;
+        }
+        .btn { 
+            display:inline-block; 
+            padding:12px 24px; 
+            border-radius:50px; 
+            border:2px solid white; 
+            color:white; 
+            text-decoration:none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn:hover { 
+            background:white; 
+            color: var(--brand);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🍳 Welcome to Recipe App</h1>
-        <p>Your favorite recipes in one place! Discover, create, and share delicious recipes with our community.</p>
-        
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">📖</div>
-                <div class="feature-title">Browse Recipes</div>
-                <p style="font-size: 14px;">Explore our collection</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">➕</div>
-                <div class="feature-title">Add Recipes</div>
-                <p style="font-size: 14px;">Share your creations</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">⭐</div>
-                <div class="feature-title">Save Favorites</div>
-                <p style="font-size: 14px;">Keep track of what you love</p>
+    <header>
+        <div class="brand">🍳 Recipe App</div>
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="{% url 'recipe:recipes-list' %}">Browse Recipes</a>
+        </nav>
+    </header>
+
+    <div class="hero-container">
+        <img class="hero-bg" src="{% static 'recipe/images/Welcome page.jpeg' %}" alt="Home hero image" />
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Welcome to Recipe App</h1>
+            <p class="sub">Discover, cook, and share delicious recipes. Start by browsing the list or jump into the admin to add your own.</p>
+            
+            <a class="btn-primary" href="/admin/">Get Started</a>
+            
+            <div class="cta-row">
+                <a class="btn" href="{% url 'recipe:recipes-list' %}">Browse Recipe List</a>
             </div>
         </div>
-        
-        <a href="/admin/" style="text-decoration: none;">
-            <button class="cta-button">Get Started</button>
-        </a>
     </div>
 </body>
 </html>
