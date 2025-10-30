@@ -24,6 +24,8 @@ class RecipeListDetailTests(TestCase):
         self.assertEqual(self.r1.get_absolute_url(), f"/recipes/{self.r1.pk}/")
 
     def test_recipes_list_view(self):
+        # Log in before accessing protected view
+        self.client.login(username='lister', password='pass1234')
         url = reverse('recipe:recipes-list')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
@@ -35,6 +37,8 @@ class RecipeListDetailTests(TestCase):
         self.assertContains(response, self.r2.get_absolute_url())
 
     def test_recipe_detail_view(self):
+        # Log in before accessing protected view
+        self.client.login(username='lister', password='pass1234')
         url = reverse('recipe:recipe-detail', kwargs={'pk': self.r2.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
