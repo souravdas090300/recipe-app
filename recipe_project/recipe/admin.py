@@ -2,6 +2,12 @@ from django.contrib import admin
 from .models import Recipe
 
 
+# Customize admin site headers
+admin.site.site_header = "Recipe App Administration"
+admin.site.site_title = "Recipe App Admin"
+admin.site.index_title = "Welcome to Recipe App Admin Panel"
+
+
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
     """Admin interface for Recipe model."""
@@ -13,3 +19,4 @@ class RecipeAdmin(admin.ModelAdmin):
         """Display difficulty in admin changelist."""
         return obj.difficulty()
     get_difficulty.short_description = 'Difficulty'
+

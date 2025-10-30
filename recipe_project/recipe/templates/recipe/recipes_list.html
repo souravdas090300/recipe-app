@@ -8,6 +8,25 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         h1 { color: #333; }
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
         th { background-color: #f4f4f4; }
@@ -17,7 +36,10 @@
     </style>
 </head>
 <body>
-    <h1>Recipes' list</h1>
+    <div class="header-bar">
+        <h1>Recipes' list</h1>
+        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
+    </div>
     <table>
         <tr>
             <th>Recipe Title</th>
