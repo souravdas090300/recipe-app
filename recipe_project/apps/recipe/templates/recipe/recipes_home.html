@@ -469,97 +469,33 @@
     <!-- Main Navigation Menu -->
     <nav class="main-nav">
         <div class="main-nav-container">
-            <!-- Dinners -->
+            <!-- Browse Recipes -->
             <div class="nav-item">
-                <button class="nav-button">Dinners</button>
+                <button class="nav-button">Browse</button>
                 <div class="dropdown-menu">
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">All Dinner Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Quick & Easy Dinners</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Vegetarian Dinners</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Healthy Dinners</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Pasta Dishes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Chicken Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Beef Recipes</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">All Recipes</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Search Recipes</a>
                 </div>
             </div>
 
-            <!-- Meals -->
+            <!-- By Category -->
             <div class="nav-item">
-                <button class="nav-button">Meals</button>
+                <button class="nav-button">Categories</button>
                 <div class="dropdown-menu">
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Breakfast & Brunch</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Lunch Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Dinner Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Desserts</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Snacks & Appetizers</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Healthy Options</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Quick Meals</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Breakfast</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Lunch</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Dinner</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Desserts</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Snacks</a>
                 </div>
             </div>
 
-            <!-- Ingredients -->
+            <!-- About -->
             <div class="nav-item">
-                <button class="nav-button">Ingredients</button>
+                <button class="nav-button">About</button>
                 <div class="dropdown-menu">
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Chicken Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Beef Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Seafood Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Pasta Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Vegetable Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Fruit-Based Recipes</a>
-                </div>
-            </div>
-
-            <!-- Occasions -->
-            <div class="nav-item">
-                <button class="nav-button">Occasions</button>
-                <div class="dropdown-menu">
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Holiday Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Christmas Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Thanksgiving Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Easter Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Halloween Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Valentine's Day</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">New Year's Recipes</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Party & Gatherings</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Special Occasions</a>
-                </div>
-            </div>
-
-            <!-- Cuisines -->
-            <div class="nav-item">
-                <button class="nav-button">Cuisines</button>
-                <div class="dropdown-menu">
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Italian Cuisine</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Chinese Cuisine</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Indian Cuisine</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Mexican Cuisine</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Japanese Cuisine</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Greek Cuisine</a>
-                        <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">American Cuisine</a>
-                </div>
-            </div>
-
-            <!-- Features -->
-            <div class="nav-item">
-                <button class="nav-button">Features</button>
-                <div class="dropdown-menu">
-                    <a href="{% url 'recipe:recipes-list' %}">Recipe Collections</a>
-                    <a href="#">Trending Recipes</a>
-                    <a href="#">Seasonal Recipes</a>
-                    <a href="#">Chef's Picks</a>
-                    <a href="#">Video Recipes</a>
-                </div>
-            </div>
-
-            <!-- About Us -->
-            <div class="nav-item">
-                <button class="nav-button">About Us</button>
-                <div class="dropdown-menu">
-                    <a href="{% url 'recipe:about' %}">About the Developer</a>
+                    <a href="{% url 'recipe:about' %}">About This Project</a>
                     <a href="/admin/">Admin Panel</a>
-                    <a href="{% url 'recipe:about' %}">Our Story</a>
-                    <a href="{% url 'recipe:about' %}">Contact Us</a>
                 </div>
             </div>
         </div>

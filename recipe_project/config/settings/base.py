@@ -80,10 +80,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Additional static files directories (project-level)
 STATICFILES_DIRS = [
-    BASE_DIR / 'templates' / 'static',
+    BASE_DIR / 'static',
 ]
 
 # Media files (user uploads)
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'templates' / 'media'
+MEDIA_ROOT = BASE_DIR / 'media'
 
