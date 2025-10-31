@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Recipe App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            text-align: center;
+        }
+        h2 {
+            color: #764ba2;
+            margin: 30px 0 15px 0;
+            font-size: 1.8em;
+        }
+        p {
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .profile-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 20px auto;
+            display: block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .links-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        .link-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .tech-badge {
+            background: #f0f0f0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #333;
+            font-weight: 600;
+        }
+        .back-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-section">
+            <h1>👨‍💻 About the Developer</h1>
+            <p style="font-size: 1.2em; color: #666;">Full-Stack Web Developer | Python Enthusiast</p>
+        </div>
+
+        <h2>🚀 About This Project</h2>
+        <p>
+            Welcome to the Recipe App! This is a full-stack web application built with Django as part of the 
+            CareerFoundry Full-Stack Web Development Achievement 2. The application demonstrates proficiency in:
+        </p>
+        <div class="tech-stack">
+            <span class="tech-badge">Python 3.14</span>
+            <span class="tech-badge">Django 5.2</span>
+            <span class="tech-badge">pandas</span>
+            <span class="tech-badge">matplotlib</span>
+            <span class="tech-badge">SQLite/PostgreSQL</span>
+            <span class="tech-badge">HTML/CSS</span>
+            <span class="tech-badge">Heroku Deployment</span>
+        </div>
+
+        <h2>✨ Key Features</h2>
+        <ul style="margin-left: 30px; line-height: 2; font-size: 1.1em;">
+            <li>User authentication and authorization</li>
+            <li>Recipe CRUD operations</li>
+            <li>Advanced search with wildcard support</li>
+            <li>Data visualization with interactive charts (Bar, Pie, Line)</li>
+            <li>Responsive design with modern UI/UX</li>
+            <li>Comprehensive test coverage (39 tests)</li>
+        </ul>
+
+        <h2>📚 Learning Journey</h2>
+        <p>
+            This project was developed as part of CareerFoundry's Python for Web Developers course (Achievement 2). 
+            Throughout this journey, I learned Django MVT architecture, database modeling, QuerySet API, 
+            data analysis with pandas, visualization with matplotlib, deployment strategies, and security best practices.
+        </p>
+
+        <h2>🔗 Connect With Me</h2>
+        <div class="links-section">
+            <a href="https://github.com/souravdas090300" target="_blank" class="link-card">
+                📂 GitHub Profile
+            </a>
+            <a href="https://github.com/souravdas090300/recipe-app" target="_blank" class="link-card">
+                💻 Project Repository
+            </a>
+            <a href="https://www.linkedin.com/in/yourprofile" target="_blank" class="link-card">
+                💼 LinkedIn
+            </a>
+            <a href="mailto:your.email@example.com" class="link-card">
+                📧 Email Me
+            </a>
+        </div>
+
+        <h2>🎯 Future Enhancements</h2>
+        <ul style="margin-left: 30px; line-height: 2; font-size: 1.1em;">
+            <li>Recipe rating and review system</li>
+            <li>Social sharing features</li>
+            <li>Advanced filters (dietary restrictions, cuisine type)</li>
+            <li>Meal planning and shopping list generation</li>
+            <li>Mobile app version</li>
+        </ul>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="{% url 'recipe:home' %}" class="back-btn">🏠 Back to Homepage</a>
+        </div>
+    </div>
+</body>
+</html>
