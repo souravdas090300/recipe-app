@@ -1,55 +1,112 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ object.name }} - Details</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h2 { color: #333; }
-        .header-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+
+{% block title %}{{ object.name }} - Recipe Details{% endblock %}
+
+{% block extra_styles %}
+<style>
+    body {
+        background-color: #f8f8f8;
+    }
+    
+    .detail-container {
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    h2 { 
+        color: #333;
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+    
+    .wrapper { 
+        display: grid; 
+        grid-template-columns: 500px 1fr; 
+        gap: 24px; 
+        align-items: start;
+        margin-bottom: 30px;
+    }
+    
+    .img-box img { 
+        border-radius: 8px; 
+        width: 100%; 
+        height: auto; 
+        object-fit: cover; 
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+    }
+    
+    .field { 
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+    
+    .label { 
+        font-weight: bold; 
+        color: #e74c3c;
+        display: inline-block;
+        min-width: 150px;
+    }
+    
+    .back { 
+        display: inline-block; 
+        color: #e74c3c;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 10px 20px;
+        border: 2px solid #e74c3c;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .back:hover {
+        background: #e74c3c;
+        color: white;
+    }
+    
+    .no-image {
+        width: 500px;
+        height: 400px;
+        background: #eee;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #888;
+        font-size: 1.2em;
+    }
+    
+    @media (max-width: 768px) {
+        .wrapper {
+            grid-template-columns: 1fr;
         }
-        .logout-btn {
-            background-color: #e74c3c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
+        .img-box img, .no-image {
+            width: 100%;
         }
-        .logout-btn:hover {
-            background-color: #c0392b;
-        }
-        .wrapper { display: grid; grid-template-columns: 500px 1fr; gap: 24px; align-items: start; }
-        .img-box img { border-radius: 8px; width: 100%; height: auto; object-fit: cover; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .field { margin-bottom: 10px; }
-        .label { font-weight: bold; color: #555; }
-        .back { margin-top: 20px; display: inline-block; color: #4c51bf; }
-    </style>
-</head>
-<body>
-    <div class="header-bar">
-        <h2>Details: {{ object.name }}</h2>
-        <a href="{% url 'logout' %}" class="logout-btn">Logout</a>
-    </div>
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <h2>{{ object.name }}</h2>
+    
     <div class="wrapper">
         <div class="img-box">
             {% if object.pic %}
                 <img src="{{ object.pic.url }}" alt="{{ object.name }}" />
             {% else %}
-                <div style="width:500px;height:400px;background:#eee;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#888;">No image</div>
+                <div class="no-image">No image available</div>
             {% endif %}
         </div>
         <div>
             <div class="field"><span class="label">Title: </span>{{ object.name }}</div>
             <div class="field"><span class="label">Author (Owner): </span>{{ object.user.username }}</div>
+            <div class="field"><span class="label">Category: </span>{{ object.get_category_display }}</div>
             <div class="field"><span class="label">Cooking Time: </span>{{ object.cooking_time }} minutes</div>
             <div class="field"><span class="label">Difficulty: </span>{{ object.difficulty }}</div>
             <div class="field"><span class="label">Ingredients: </span>{{ object.ingredients }}</div>
@@ -59,6 +116,6 @@
         </div>
     </div>
 
-    <a class="back" href="{% url 'recipe:recipes-list' %}">← Back to list</a>
-</body>
-</html>
+    <a class="back" href="{% url 'recipe:recipes-list' %}">← Back to Recipes</a>
+</div>
+{% endblock %}
