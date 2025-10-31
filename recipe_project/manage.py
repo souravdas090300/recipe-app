@@ -9,7 +9,9 @@ def main():
     # Default: Use production settings (settings.py)
     # For local development: Use settings_local.py
     # To switch, change to: 'recipe_project.settings_local'
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'recipe_project.settings_local')
+    # Use the new config settings module layout
+    # For local development, point to config.settings.dev
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.dev')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
