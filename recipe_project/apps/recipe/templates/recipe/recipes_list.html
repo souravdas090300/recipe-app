@@ -78,7 +78,7 @@
         }
         .search-form {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr auto;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
             gap: 15px;
             align-items: end;
         }
@@ -216,12 +216,17 @@
     <!-- Search Form Section -->
     <div class="search-section">
         <h2>Search for Recipes</h2>
-        <form action="" method="POST" class="search-form">
-            {% csrf_token %}
+        <form action="" method="GET" class="search-form">
+            
                 
                 <div class="form-group">
                     <label for="id_recipe_name">Recipe Name:</label>
                     {{ form.recipe_name }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="id_ingredient">Ingredient:</label>
+                    {{ form.ingredient }}
                 </div>
                 
                 <div class="form-group">
@@ -253,7 +258,7 @@
                     <img src="data:image/png;base64,{{ chart|safe }}" alt="Recipe Chart">
                 </div>
             </div>
-        {% elif request.method == 'POST' %}
+        {% elif request.method == 'POST' or request.GET %}
             <div class="no-data">
                 <h3>No recipes found matching your criteria.</h3>
                 <p>Try adjusting your search parameters.</p>
@@ -294,5 +299,32 @@
                 {% endfor %}
             </table>
         </div>
+        
+        <!-- Pagination Controls -->
+        {% if is_paginated %}
+            <nav class="pagination" aria-label="Pagination">
+                <ul>
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page=1{{ querystring }}">« First</a></li>
+                        <li><a href="?page={{ page_obj.previous_page_number }}{{ querystring }}">‹ Prev</a></li>
+                    {% endif %}
+                    
+                    {% for num in paginator.page_range %}
+                        {% if num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                            {% if num == page_obj.number %}
+                                <li><span class="active">{{ num }}</span></li>
+                            {% else %}
+                                <li><a href="?page={{ num }}{{ querystring }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}{{ querystring }}">Next ›</a></li>
+                        <li><a href="?page={{ paginator.num_pages }}{{ querystring }}">Last »</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
     </div>
 {% endblock %}

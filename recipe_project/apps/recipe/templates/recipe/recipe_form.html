@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Recipe - Recipe App{% endblock %}
+
+{% block extra_styles %}
+<style>
+.form-card{max-width:800px;margin:0 auto;background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.form-card h2{margin-bottom:16px;color:#333}
+.form-row{margin-bottom:12px;display:flex;flex-direction:column}
+.form-row label{font-weight:600;margin-bottom:6px}
+.form-row input[type="text"], .form-row input[type="number"], .form-row textarea, .form-row select{
+  padding:10px;border:1px solid #ddd;border-radius:8px;font-size:1rem
+}
+.actions{margin-top:16px;}
+.actions button{padding:10px 18px;border:none;border-radius:8px;background:#e74c3c;color:#fff;font-weight:600;cursor:pointer}
+.actions button:hover{background:#c0392b}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-card">
+    <h2>➕ Add a New Recipe</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+            <label for="id_name">Title</label>
+            {{ form.name }}
+        </div>
+        <div class="form-row">
+            <label for="id_cooking_time">Cooking Time (minutes)</label>
+            {{ form.cooking_time }}
+        </div>
+        <div class="form-row">
+            <label for="id_category">Category</label>
+            {{ form.category }}
+        </div>
+        <div class="form-row">
+            <label for="id_ingredients">Ingredients (comma-separated)</label>
+            {{ form.ingredients }}
+        </div>
+        <div class="form-row">
+            <label for="id_description">Description</label>
+            {{ form.description }}
+        </div>
+        <div class="form-row">
+            <label for="id_pic">Image</label>
+            {{ form.pic }}
+        </div>
+        <div class="actions">
+            <button type="submit">Save Recipe</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
