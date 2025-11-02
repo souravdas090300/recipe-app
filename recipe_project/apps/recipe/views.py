@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView
 from .models import Recipe
 # To protect class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -24,6 +25,7 @@ class RecipeListView(LoginRequiredMixin, ListView):
     """Protected list view showing all recipes with their images and search functionality."""
     model = Recipe
     template_name = 'recipe/recipes_list.html'
+    paginate_by = 12
     
     def post(self, request, *args, **kwargs):
         """Handle POST requests for search functionality."""
@@ -53,6 +55,7 @@ class RecipeListView(LoginRequiredMixin, ListView):
         if self.request.method in ['POST', 'GET'] and form.is_valid():
             # Get search criteria
             recipe_name = data.get('recipe_name')
+            ingredient = data.get('ingredient')
             chart_type = data.get('chart_type')
             difficulty = data.get('difficulty')
             
@@ -63,6 +66,9 @@ class RecipeListView(LoginRequiredMixin, ListView):
             # Partial search with wildcard support (case-insensitive)
             if recipe_name:
                 qs = qs.filter(name__icontains=recipe_name)
+            # Ingredient substring (case-insensitive) against CSV TextField
+            if ingredient:
+                qs = qs.filter(ingredients__icontains=ingredient)
             
             # Filter by difficulty if selected
             if difficulty:
@@ -93,6 +99,13 @@ class RecipeListView(LoginRequiredMixin, ListView):
                     escape=False
                 )
         
+        # Build querystring (exclude page) to preserve filters in pagination links
+        params = self.request.GET.copy() if self.request.method == 'GET' else self.request.POST.copy()
+        if 'page' in params:
+            params.pop('page')
+        querystring = params.urlencode()
+        context['querystring'] = ('&' + querystring) if querystring else ''
+
         # Add to context
         context['recipes_df'] = recipes_df
         context['chart'] = chart
@@ -104,4 +117,20 @@ class RecipeDetailView(LoginRequiredMixin, DetailView):
     """Protected detail view for a single recipe, including computed difficulty."""
     model = Recipe
     template_name = 'recipe/recipe_detail.html'
+
+class RecipeCreateView(LoginRequiredMixin, CreateView):
+    """Create view to allow authenticated users to add new recipes."""
+    model = Recipe
+    fields = ['name', 'cooking_time', 'ingredients', 'description', 'category', 'pic']
+    template_name = 'recipe/recipe_form.html'
+
+    def form_valid(self, form):
+        # Set the owner to current user
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        # Redirect to recipes list after creation
+        from django.urls import reverse
+        return reverse('recipe:recipes-list')
 

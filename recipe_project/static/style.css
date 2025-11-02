@@ -1,0 +1,41 @@
+/* Global external stylesheet for Recipe App */
+:root{
+  --brand:#e74c3c;
+  --brand-dark:#c0392b;
+  --bg:#f8f8f8;
+}
+
+html,body{height:100%;}
+body{
+  background-color: var(--bg);
+  font-family: 'Arial','Segoe UI',sans-serif;
+  color:#333;
+}
+
+/* Header + Nav overrides */
+header .logo{color:var(--brand);} 
+header .nav-links a:hover{color:var(--brand);} 
+.btn-primary{background:var(--brand);}
+.btn-primary:hover{background:var(--brand-dark);} 
+
+/* Cards/containers */
+.card, .recipes-container, .detail-container {
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Tables */
+.table thead th, th{
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  color:#fff;
+}
+
+/* Pagination */
+.pagination{ margin-top:20px; display:flex; justify-content:center; }
+.pagination ul{ list-style:none; display:flex; gap:8px; padding:0; margin:0; }
+.pagination a, .pagination span{
+  padding:8px 12px; border:1px solid #ddd; border-radius:6px; text-decoration:none; color:#333;
+}
+.pagination a:hover{ border-color:var(--brand); color:var(--brand); }
+.pagination .active{ background:var(--brand); color:#fff; border-color:var(--brand); }

@@ -27,6 +27,14 @@ class RecipeSearchForm(forms.Form):
             'class': 'search-input'
         })
     )
+    ingredient = forms.CharField(
+        max_length=120,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Search by ingredient (e.g., chicken)',
+            'class': 'search-input'
+        })
+    )
     chart_type = forms.ChoiceField(
         choices=CHART_CHOICES,
         widget=forms.Select(attrs={'class': 'chart-select'})
