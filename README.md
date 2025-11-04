@@ -6,8 +6,8 @@ A comprehensive recipe management and discovery platform built with Django, feat
 **Live Application:** [https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/](https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/)
 
 **Test Credentials:**
-- Username: `mentorCF`
-- Password: `Ment0r@CareerF0undry`
+- Username: `testuser`
+- Password: `example@123`
 
 ## 📋 Table of Contents
 - [Features](#features)
@@ -198,9 +198,9 @@ python manage.py runserver
 1. **Access Admin Panel**
    - Navigate to `/admin/`
    - Login with superuser credentials
-   - Two accounts available:
-     - `mentorCF` (for mentor review)
-     - `souravdas090300` (developer account)
+   - Example accounts:
+     - `testuser` (test account)
+     - `admin` (administrator account)
 
 2. **Manage Recipes**
    - View all recipes in database
