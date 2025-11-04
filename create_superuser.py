@@ -3,7 +3,11 @@
 Script to create superuser non-interactively on Heroku
 """
 import os
+import sys
 import django
+
+# Add recipe_project to path
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'recipe_project'))
 
 # Setup Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings.prod')
