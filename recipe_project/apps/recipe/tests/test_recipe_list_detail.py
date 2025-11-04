@@ -1,7 +1,7 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth import get_user_model
-from recipe.models import Recipe
+from apps.recipe.models import Recipe
 
 
 User = get_user_model()

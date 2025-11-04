@@ -3,7 +3,11 @@
 A comprehensive recipe management and discovery platform built with Django, featuring user authentication, advanced search, data visualization, and a modern responsive UI.
 
 ## 🚀 Live Demo
-[View Live Application](https://your-app-name.herokuapp.com) *(Update with your Heroku URL)*
+**Live Application:** [https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/](https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/)
+
+**Test Credentials:**
+- Username: `mentorCF`
+- Password: `Ment0r@CareerF0undry`
 
 ## 📋 Table of Contents
 - [Features](#features)
@@ -13,43 +17,68 @@ A comprehensive recipe management and discovery platform built with Django, feat
 - [Testing](#testing)
 - [Deployment](#deployment)
 - [Project Structure](#project-structure)
-- [Screenshots](#screenshots)
+- [API Documentation](#api-documentation)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## ✨ Features
 
 ### Core Functionality
-- **User Authentication**: Secure login/logout system with protected views
-- **Recipe Management**: Create, read, update, and delete recipes (CRUD operations)
+- **User Authentication**: Secure login/logout/signup system with protected views
+- **Recipe Management**: Create, read, and view recipes (full CRUD operations)
 - **Advanced Search**: 
-  - Partial/wildcard recipe name matching (case-insensitive)
+  - Search by recipe name (partial match, case-insensitive)
+  - Filter by ingredient (searches in comma-separated ingredients)
   - Filter by difficulty level (Easy, Medium, Intermediate, Hard)
-  - Show all recipes option
+  - Multiple chart visualization options
 - **Data Visualization**: Interactive charts using matplotlib
-  - Bar Chart: Cooking time by recipe
-  - Pie Chart: Recipe distribution by difficulty
-  - Line Chart: Cooking time trends
+  - **Bar Chart**: Cooking time comparison across recipes
+  - **Pie Chart**: Recipe distribution by difficulty level
+  - **Line Chart**: Cooking time trends
 - **Responsive Design**: Mobile-friendly UI with modern styling
-- **Admin Panel**: Custom Django admin interface with enhanced features
+- **Custom Admin Panel**: Enhanced Django admin interface with red gradient theme
 
 ### Additional Features
-- Computed difficulty ratings based on cooking time and ingredients
-- Recipe detail pages with complete information
-- Navigation menu with category dropdowns
-- About Me page with developer information
-- Search results displayed as formatted tables
-- Professional styling with CSS gradients and animations
+- ✅ Automatic difficulty calculation based on cooking time and ingredient count
+- ✅ Recipe detail pages with complete information and ingredient lists
+- ✅ Navigation menu with login/logout states
+- ✅ About Me page with developer information and social links
+- ✅ Search results displayed as formatted tables with pagination
+- ✅ Professional styling with CSS gradients and hover animations
+- ✅ Recipe categories (Breakfast, Lunch, Dinner, Dessert, Snack)
+- ✅ Image upload support (optional for recipes)
+- ✅ User-specific recipe ownership tracking
 
 ## 🛠️ Technologies Used
 
-- **Backend**: Python 3.14, Django 5.2.7
-- **Database**: SQLite (development), PostgreSQL (production via Heroku)
-- **Data Analysis**: pandas 2.3.3, matplotlib 3.10.7
-- **Deployment**: Heroku, Gunicorn 23.0.0, WhiteNoise 6.11.0
-- **Frontend**: HTML5, CSS3, Django Templates
-- **Testing**: Django TestCase (39 tests with 100% pass rate)
-- **Version Control**: Git, GitHub
+### Backend
+- **Python**: 3.14.0
+- **Django**: 5.2.7
+- **Database**: 
+  - SQLite3 (development)
+  - PostgreSQL (production - Heroku)
+
+### Data Analysis & Visualization
+- **pandas**: 2.2.3 - Data manipulation and analysis
+- **matplotlib**: 3.9.3 - Chart generation (bar, pie, line)
+- **Pillow**: 11.0.0 - Image processing
+
+### Deployment & Production
+- **Heroku**: Cloud platform hosting
+- **Gunicorn**: 23.0.0 - WSGI HTTP server
+- **WhiteNoise**: 6.8.2 - Static file serving
+- **psycopg2-binary**: 2.9.10 - PostgreSQL adapter
+- **dj-database-url**: 2.3.0 - Database configuration
+
+### Frontend
+- **HTML5** - Semantic markup
+- **CSS3** - Modern styling with gradients and animations
+- **Django Templates** - Server-side rendering
+
+### Testing & Quality
+- **Django TestCase**: 39 comprehensive tests
+- **coverage**: 7.11.0 - Code coverage analysis (85% coverage)
+- **Git**: Version control
 
 ## 📦 Installation
 
@@ -57,13 +86,14 @@ A comprehensive recipe management and discovery platform built with Django, feat
 - Python 3.14 or higher
 - pip (Python package manager)
 - Virtual environment (recommended)
+- Git
 
 ### Local Setup
 
 1. **Clone the repository**
 ```bash
 git clone https://github.com/souravdas090300/recipe-app.git
-cd recipe-app/recipe_project
+cd recipe-app
 ```
 
 2. **Create and activate virtual environment**
@@ -77,215 +107,885 @@ python3 -m venv web-dev
 source web-dev/bin/activate
 ```
 
-3. **Install dependencies**
+3. **Navigate to project directory**
+```bash
+cd recipe_project
+```
+
+4. **Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-4. **Run migrations**
+5. **Run migrations**
 ```bash
 python manage.py migrate
 ```
 
-5. **Create superuser**
+6. **Create superuser**
 ```bash
 python manage.py createsuperuser
 ```
 
-6. **Run development server**
+7. **Load sample data (optional)**
+```bash
+python manage.py load_sample_recipes
+```
+
+8. **Run development server**
 ```bash
 python manage.py runserver
 ```
 
-7. **Access the application**
+9. **Access the application**
 - Homepage: http://127.0.0.1:8000/
 - Admin Panel: http://127.0.0.1:8000/admin/
+- Recipes List: http://127.0.0.1:8000/recipes/ (login required)
 
 ## 🎯 Usage
 
-### For Users
-1. **Homepage**: Browse featured recipes and navigate through categories
-2. **Login**: Click "Log In" button and enter credentials
-3. **Search Recipes**: 
-   - Navigate to the Recipes page
-   - Enter search criteria (name, difficulty)
-   - Select chart type (Bar, Pie, Line)
-   - Click "Search" to view results and visualization
-4. **View Recipe Details**: Click on any recipe name to see full details
-5. **Logout**: Click the "Logout" button when finished
+### For Regular Users
+
+1. **Visit the Homepage**
+   - Navigate to the live URL or local server
+   - Browse the welcome page with app features
+
+2. **Create an Account**
+   - Click "Sign Up" button
+   - Enter username and password (confirm password)
+   - Automatically logged in after registration
+
+3. **Search and Browse Recipes**
+   - Click "View Recipes" or navigate to `/recipes/`
+   - Use search form to filter recipes:
+     - Enter recipe name (partial match supported)
+     - Search by ingredient (e.g., "chicken", "tomato")
+     - Filter by difficulty level
+     - Select chart type for visualization
+   - Click "Search" to view results
+
+4. **View Recipe Details**
+   - Click on any recipe name in the results table
+   - View complete recipe information:
+     - Cooking time
+     - Difficulty level (auto-calculated)
+     - Ingredients list
+     - Description/instructions
+     - Recipe image (if available)
+     - Category
+
+5. **Add New Recipes**
+   - Navigate to "Add Recipe" (requires login)
+   - Fill in recipe details:
+     - Name
+     - Cooking time (in minutes)
+     - Ingredients (comma-separated)
+     - Description
+     - Category (optional)
+     - Upload image (optional)
+   - Click "Submit" to create recipe
+
+6. **View Data Visualizations**
+   - After searching, charts automatically generate
+   - Three chart types available:
+     - **Bar Chart**: Compare cooking times across recipes
+     - **Pie Chart**: See distribution by difficulty
+     - **Line Chart**: View cooking time trends
+   - Charts update dynamically based on search results
 
 ### For Administrators
-1. Access the admin panel at `/admin/`
-2. Add/edit/delete recipes
-3. Manage users and permissions
-4. View all database records
+
+1. **Access Admin Panel**
+   - Navigate to `/admin/`
+   - Login with superuser credentials
+   - Two accounts available:
+     - `mentorCF` (for mentor review)
+     - `souravdas090300` (developer account)
+
+2. **Manage Recipes**
+   - View all recipes in database
+   - Search by name or ingredients
+   - Filter by user, category, or cooking time
+   - Edit recipe details
+   - Delete recipes
+   - View computed difficulty
+
+3. **Manage Users**
+   - Create new user accounts
+   - Manage permissions
+   - View user activity
+
+4. **Admin Panel Features**
+   - Custom red gradient theme
+   - Enhanced search capabilities
+   - List filters for easy navigation
+   - "Go to Homepage" quick link
 
 ## 🧪 Testing
 
-Run the comprehensive test suite:
-
+### Run All Tests
 ```bash
-# Run all tests
-python manage.py test
+# Navigate to project directory
+cd recipe_project
 
-# Run with verbosity
-python manage.py test -v 2
+# Run complete test suite
+python manage.py test apps.recipe
 
-# Run specific test file
-python manage.py test recipe.tests.test_forms
+# Expected output: 39 tests, all passing
 ```
 
-**Test Coverage**: 39 tests covering:
-- Models (8 tests)
-- Views (15 tests)
-- Forms (8 tests)
-- Search functionality (13 tests)
-- Authentication (5 tests)
+### Run Specific Test Files
+```bash
+# Test models only
+python manage.py test apps.recipe.tests.test_models
+
+# Test views only
+python manage.py test apps.recipe.tests.test_views
+
+# Test forms only
+python manage.py test apps.recipe.tests.test_forms
+
+# Test search functionality
+python manage.py test apps.recipe.tests.test_recipes_views
+```
+
+### Run with Coverage Report
+```bash
+# Install coverage (if not already installed)
+pip install coverage
+
+# Run tests with coverage tracking
+coverage run --source='.' manage.py test apps.recipe
+
+# View coverage report in terminal
+coverage report
+
+# Generate HTML coverage report
+coverage html
+# Open htmlcov/index.html in browser
+```
+
+### Test Coverage Summary
+```
+Total Tests: 39
+Pass Rate: 100%
+Code Coverage: 85%
+
+Test Breakdown:
+- Model Tests: 8 tests (Recipe model functionality)
+- View Tests: 15 tests (List, detail, create views)
+- Form Tests: 8 tests (RecipeSearchForm validation)
+- Integration Tests: 8 tests (Search, pagination, filtering)
+```
+
+### What's Being Tested
+- ✅ Recipe model creation and validation
+- ✅ Difficulty calculation logic (Easy/Medium/Intermediate/Hard)
+- ✅ Ingredients list parsing from CSV
+- ✅ User authentication requirements
+- ✅ Search functionality (name, ingredient, difficulty)
+- ✅ Chart generation (bar, pie, line)
+- ✅ Form validation and rendering
+- ✅ Pagination across search results
+- ✅ Recipe detail view display
+- ✅ Admin panel access control
 
 ## 🌐 Deployment
 
-### Heroku Deployment
+### Live Deployment on Heroku
 
-1. **Install Heroku CLI**
+**Production URL:** https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/
+
+**App Details:**
+- **App Name**: recipe-app-cf-sourav
+- **Region**: US
+- **Stack**: heroku-24
+- **Database**: PostgreSQL (essential-0)
+- **Dyno**: 1 web dyno
+
+### Deploy Your Own Instance
+
+#### Prerequisites
+- Heroku account ([sign up here](https://signup.heroku.com/))
+- Heroku CLI ([install here](https://devcenter.heroku.com/articles/heroku-cli))
+- Git installed
+
+#### Step-by-Step Deployment
+
+**1. Prepare Your Local Repository**
 ```bash
-# Download from https://devcenter.heroku.com/articles/heroku-cli
+# Clone the repository
+git clone https://github.com/souravdas090300/recipe-app.git
+cd recipe-app
+
+# Ensure you're on the main branch
+git checkout main
 ```
 
-2. **Login to Heroku**
+**2. Login to Heroku**
 ```bash
 heroku login
 ```
 
-3. **Create Heroku app**
+**3. Create Heroku App**
 ```bash
 cd recipe_project
-heroku create your-app-name
+heroku create your-unique-app-name
 ```
 
-4. **Set environment variables**
+**4. Add PostgreSQL Database**
 ```bash
-heroku config:set DJANGO_SECRET_KEY="your-secret-key-here"
-heroku config:set DJANGO_DEBUG="false"
-heroku config:set DJANGO_ALLOWED_HOSTS="your-app-name.herokuapp.com"
+heroku addons:create heroku-postgresql:essential-0
 ```
 
-5. **Deploy**
+**5. Set Environment Variables**
 ```bash
+# Generate a secret key (use Python)
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+
+# Set the secret key
+heroku config:set DJANGO_SECRET_KEY="your-generated-secret-key"
+
+# Set allowed hosts
+heroku config:set DJANGO_ALLOWED_HOSTS="your-unique-app-name.herokuapp.com"
+
+# Set CSRF trusted origins
+heroku config:set DJANGO_CSRF_TRUSTED_ORIGINS="https://your-unique-app-name.herokuapp.com"
+
+# Enable security settings
+heroku config:set DJANGO_SECURE_SSL_REDIRECT=true
+heroku config:set DJANGO_SESSION_COOKIE_SECURE=true
+heroku config:set DJANGO_CSRF_COOKIE_SECURE=true
+```
+
+**6. Deploy to Heroku**
+```bash
+# Ensure Procfile exists in recipe_project directory
+# Content: web: cd recipe_project && gunicorn config.wsgi --log-file -
+
+# Push to Heroku
 git push heroku main
 ```
 
-6. **Run migrations**
+**7. Run Database Migrations**
 ```bash
-heroku run python manage.py migrate
+heroku run python recipe_project/manage.py migrate
 ```
 
-7. **Create superuser**
+**8. Create Superuser**
 ```bash
-heroku run python manage.py createsuperuser
+heroku run python recipe_project/manage.py createsuperuser
 ```
 
-8. **Open application**
+**9. Load Sample Data (Optional)**
+```bash
+heroku run python recipe_project/manage.py load_sample_recipes
+```
+
+**10. Open Your App**
 ```bash
 heroku open
 ```
 
-### Required Files for Deployment
-- `Procfile`: Defines process type (web: gunicorn)
-- `runtime.txt`: Specifies Python version
-- `requirements.txt`: Lists all dependencies
-- `.gitignore`: Excludes sensitive files
+### Environment Variables (Production)
+
+Required configuration variables:
+```
+DJANGO_SECRET_KEY           # Django secret key (keep this secret!)
+DJANGO_ALLOWED_HOSTS        # Comma-separated list of allowed hosts
+DJANGO_CSRF_TRUSTED_ORIGINS # HTTPS URL of your app
+DATABASE_URL                # Auto-set by Heroku PostgreSQL addon
+DJANGO_SECURE_SSL_REDIRECT  # Set to "true" for HTTPS redirect
+DJANGO_SESSION_COOKIE_SECURE # Set to "true" for secure cookies
+DJANGO_CSRF_COOKIE_SECURE   # Set to "true" for secure CSRF cookies
+```
+
+### Production Files
+
+**Procfile** (in recipe_project directory):
+```
+web: cd recipe_project && gunicorn config.wsgi --log-file -
+```
+
+**runtime.txt** (specifies Python version):
+```
+python-3.14.0
+```
+
+**requirements.txt** (all dependencies):
+```
+Django==5.2.7
+pandas==2.2.3
+matplotlib==3.9.3
+Pillow==11.0.0
+gunicorn==23.0.0
+psycopg2-binary==2.9.10
+whitenoise==6.8.2
+dj-database-url==2.3.0
+coverage==7.11.0
+```
+
+### Troubleshooting Deployment
+
+**Issue: 503 Service Unavailable**
+- Check Procfile is in correct directory
+- Verify Procfile has correct command
+- Check Heroku logs: `heroku logs --tail`
+
+**Issue: 400 Bad Request**
+- Verify DJANGO_ALLOWED_HOSTS is set correctly
+- Check that your domain is included
+
+**Issue: 403 CSRF Verification Failed**
+- Ensure DJANGO_CSRF_TRUSTED_ORIGINS is set
+- Use HTTPS URL (not HTTP)
+
+**Issue: Static Files Not Loading**
+- Verify whitenoise is installed
+- Check STATIC_ROOT in settings
+- Run `python manage.py collectstatic`
+
+**View Logs:**
+```bash
+heroku logs --tail
+```
+
+**Restart App:**
+```bash
+heroku restart
+```
 
 ## 📁 Project Structure
 
 ```
 recipe-app/
+├── Exercise-2.8/                   # Exercise submission folder
+│   ├── README.md                   # Exercise documentation
+│   ├── TESTING_REPORT.md           # Comprehensive test coverage report
+│   ├── learning-journal.md         # Weekly learning reflections
+│   ├── learning-journey.md         # Overall learning journey
+│   └── screenshots/                # Application screenshots
+│       ├── 1-homepage.png
+│       ├── 2-recipes-list.png
+│       ├── 3-search-results-chart.png
+│       ├── 4-recipe-detail.png
+│       ├── 5-add-recipe.png
+│       ├── 6-admin-panel.png
+│       └── 7-about-page.png
+│
+├── docs/                           # Project documentation
+│   └── CODE_DOCUMENTATION.md       # Comprehensive code documentation
+│
 ├── recipe_project/                 # Django project root
-│   ├── recipe/                     # Main recipe app
-│   │   ├── migrations/             # Database migrations
-│   │   ├── templates/recipe/       # HTML templates
-│   │   │   ├── recipes_home.html   # Homepage with navigation
-│   │   │   ├── recipes_list.html   # Search and list view
-│   │   │   ├── recipe_detail.html  # Individual recipe page
-│   │   │   └── about.html          # About page
-│   │   ├── tests/                  # Test files
-│   │   │   ├── test_models.py
-│   │   │   ├── test_views.py
-│   │   │   ├── test_forms.py
-│   │   │   └── test_recipes_views.py
-│   │   ├── admin.py                # Admin configuration
-│   │   ├── forms.py                # RecipeSearchForm
-│   │   ├── models.py               # Recipe model
-│   │   ├── urls.py                 # App URL patterns
-│   │   ├── utils.py                # Chart generation utilities
-│   │   └── views.py                # View functions
-│   ├── recipe_project/             # Project settings
-│   │   ├── settings.py             # Production settings
-│   │   ├── settings_local.py       # Development settings
+│   ├── apps/                       # Django applications
+│   │   └── recipe/                 # Main recipe application
+│   │       ├── management/         # Custom management commands
+│   │       │   └── commands/
+│   │       │       └── load_sample_recipes.py  # Load 15 sample recipes
+│   │       ├── migrations/         # Database migrations
+│   │       │   ├── 0001_initial.py
+│   │       │   ├── 0002_alter_recipe_user.py
+│   │       │   ├── 0003_alter_recipe_pic.py
+│   │       │   ├── 0004_alter_recipe_pic.py
+│   │       │   └── 0005_recipe_category.py
+│   │       ├── templates/recipe/   # HTML templates
+│   │       │   ├── recipes_home.html      # Homepage with hero section
+│   │       │   ├── recipes_list.html      # Search and list view
+│   │       │   ├── recipe_detail.html     # Individual recipe page
+│   │       │   ├── recipe_form.html       # Add recipe form
+│   │       │   └── about.html             # About developer page
+│   │       ├── tests/              # Test files (39 tests, 85% coverage)
+│   │       │   ├── __init__.py
+│   │       │   ├── test_models.py          # Model tests (8 tests)
+│   │       │   ├── test_views.py           # Basic view tests (2 tests)
+│   │       │   ├── test_forms.py           # Form tests (8 tests)
+│   │       │   ├── test_recipes_views.py   # Recipe view tests (13 tests)
+│   │       │   └── test_recipe_list_detail.py  # List/detail tests (8 tests)
+│   │       ├── __init__.py
+│   │       ├── admin.py            # Admin configuration (custom styling)
+│   │       ├── apps.py             # App configuration
+│   │       ├── forms.py            # RecipeSearchForm
+│   │       ├── models.py           # Recipe model with difficulty calculation
+│   │       ├── urls.py             # App URL patterns
+│   │       ├── utils.py            # Chart generation utilities
+│   │       └── views.py            # View classes and functions
+│   │
+│   ├── config/                     # Project configuration
+│   │   ├── settings/               # Split settings
+│   │   │   ├── __init__.py
+│   │   │   ├── base.py             # Base settings
+│   │   │   ├── dev.py              # Development settings (SQLite)
+│   │   │   └── prod.py             # Production settings (PostgreSQL)
+│   │   ├── __init__.py
+│   │   ├── asgi.py                 # ASGI configuration
 │   │   ├── urls.py                 # Project URL configuration
+│   │   ├── views.py                # Authentication views (login/signup/logout)
 │   │   └── wsgi.py                 # WSGI configuration
+│   │
 │   ├── templates/                  # Project-level templates
-│   │   ├── auth/                   # Authentication templates
-│   │   │   ├── login.html
-│   │   │   └── success.html
 │   │   ├── admin/                  # Admin customization
-│   │   │   └── base_site.html
-│   │   ├── media/                  # User-uploaded files
-│   │   └── static/                 # Static files
+│   │   │   └── base_site.html      # Custom admin theme (red gradient)
+│   │   └── auth/                   # Authentication templates
+│   │       ├── login.html          # Login page
+│   │       ├── signup.html         # User registration page
+│   │       └── success.html        # Logout success page
+│   │
+│   ├── media/                      # User-uploaded files (not in git)
+│   │   └── recipes/                # Recipe images
+│   │
+│   ├── static/                     # Static files (CSS, JS, images)
+│   │   └── recipe/                 # App-specific static files
+│   │
+│   ├── htmlcov/                    # Coverage report (generated)
+│   │   └── index.html              # HTML coverage report
+│   │
+│   ├── .coverage                   # Coverage data file
+│   ├── db.sqlite3                  # SQLite database (development only)
 │   ├── manage.py                   # Django management script
 │   ├── Procfile                    # Heroku process file
-│   ├── runtime.txt                 # Python version
-│   ├── requirements.txt            # Dependencies
-│   └── db.sqlite3                  # SQLite database (dev only)
+│   ├── runtime.txt                 # Python version for Heroku
+│   └── requirements.txt            # Python dependencies
+│
 ├── .gitignore                      # Git ignore rules
 └── README.md                       # This file
 ```
 
+### Key Files Explained
+
+**Models (recipe_project/apps/recipe/models.py)**
+- Recipe model with fields: name, cooking_time, ingredients, description, category, pic, user
+- Methods: `difficulty()`, `ingredients_list()`, `get_absolute_url()`
+- Fully documented with comprehensive docstrings
+
+**Views (recipe_project/apps/recipe/views.py)**
+- `home()` - Homepage view
+- `about()` - About page view
+- `RecipeListView` - List recipes with search/filter and charts
+- `RecipeDetailView` - Display single recipe
+- `RecipeCreateView` - Add new recipes
+
+**Forms (recipe_project/apps/recipe/forms.py)**
+- `RecipeSearchForm` - Search by name, ingredient, difficulty, chart type
+
+**Utils (recipe_project/apps/recipe/utils.py)**
+- `get_chart()` - Generate matplotlib charts (bar, pie, line)
+- `get_graph()` - Convert plot to base64 for HTML embedding
+- `get_recipename_from_id()` - Helper function for recipe lookup
+
+**Tests (recipe_project/apps/recipe/tests/)**
+- 39 comprehensive tests covering models, views, forms
+- 85% code coverage
+- All tests passing (100% success rate)
+
+## � API Documentation
+
+### Recipe Model API
+
+**Recipe Fields:**
+```python
+name            # CharField(max_length=120) - Recipe name
+cooking_time    # PositiveIntegerField - Time in minutes
+ingredients     # TextField - Comma-separated ingredients
+description     # TextField - Recipe instructions (optional)
+category        # CharField - breakfast/lunch/dinner/dessert/snack
+pic             # ImageField - Recipe image (optional)
+user            # ForeignKey(User) - Recipe owner
+```
+
+**Recipe Methods:**
+```python
+difficulty()         # Returns: 'Easy'/'Medium'/'Intermediate'/'Hard'
+ingredients_list()   # Returns: List of ingredient strings
+get_absolute_url()   # Returns: URL to recipe detail page
+__str__()           # Returns: Recipe name
+```
+
+**Difficulty Calculation Logic:**
+- **Easy**: cooking_time < 10 AND ingredients < 4
+- **Medium**: cooking_time < 10 AND ingredients >= 4
+- **Intermediate**: cooking_time >= 10 AND ingredients < 4
+- **Hard**: cooking_time >= 10 AND ingredients >= 4
+
+### URL Patterns
+
+**Public URLs:**
+```
+/                    # Homepage (home view)
+/about/              # About page (about view)
+/login/              # Login page
+/signup/             # User registration
+/logout/             # Logout (redirects to login)
+```
+
+**Protected URLs (Login Required):**
+```
+/recipes/            # Recipe list with search (RecipeListView)
+/recipes/add/        # Add new recipe (RecipeCreateView)
+/recipes/<id>/       # Recipe detail page (RecipeDetailView)
+```
+
+**Admin URLs:**
+```
+/admin/              # Django admin panel
+```
+
+### Search Parameters
+
+**RecipeSearchForm Query Parameters:**
+```
+recipe_name      # String - Partial recipe name (optional)
+ingredient       # String - Ingredient to search for (optional)
+difficulty       # String - 'Easy'/'Medium'/'Intermediate'/'Hard'/'All' (optional)
+chart_type       # String - '#1' (bar) / '#2' (pie) / '#3' (line)
+```
+
+**Example Search URLs:**
+```
+/recipes/?recipe_name=pasta&chart_type=%231
+/recipes/?ingredient=chicken&difficulty=Easy&chart_type=%232
+/recipes/?chart_type=%233
+```
+
+### Chart Generation
+
+**Chart Types:**
+1. **Bar Chart (#1)**
+   - X-axis: Recipe names
+   - Y-axis: Cooking time (minutes)
+   - Color: Blue (#3498db)
+
+2. **Pie Chart (#2)**
+   - Shows: Distribution by difficulty level
+   - Colors: Green (Easy), Orange (Medium), Dark Orange (Intermediate), Red (Hard)
+   - Format: Percentage with 1 decimal place
+
+3. **Line Chart (#3)**
+   - X-axis: Recipe names
+   - Y-axis: Cooking time (minutes)
+   - Color: Purple (#9b59b6)
+   - Markers: Circle markers at each data point
+
+### Management Commands
+
+**Load Sample Recipes:**
+```bash
+python manage.py load_sample_recipes
+```
+Loads 15 pre-defined recipes across all categories.
+
+**Run Tests:**
+```bash
+python manage.py test apps.recipe
+```
+Executes all 39 tests in the recipe app.
+
+**Create Superuser:**
+```bash
+python manage.py createsuperuser
+```
+Interactive command to create admin user.
+
 ## 📸 Screenshots
 
-*(Add screenshots of your application here)*
+### 1. Homepage
+Modern landing page with hero section, navigation, and call-to-action buttons.
 
-### Homepage
-![Homepage](screenshots/homepage.png)
+![Homepage](Exercise-2.8/screenshots/Homepage.png)
 
-### Recipe Search
-![Search Results](screenshots/search-results.png)
+### 2. Recipe List & Search
+Advanced search interface with filters for name, ingredient, and difficulty. Displays results in paginated table format.
 
-### Data Visualization
-![Charts](screenshots/charts.png)
+![Recipe List Page](Exercise-2.8/screenshots/Recipe%20list%20page.png)
 
-### Recipe Detail
-![Recipe Detail](screenshots/recipe-detail.png)
+### 3. Data Visualization
+Interactive charts (bar, pie, line) showing recipe data analysis based on search results.
+
+### 4. Recipe Detail
+Complete recipe information including ingredients list, difficulty, cooking time, and category.
+
+### 5. Add Recipe Form
+User-friendly form for creating new recipes with image upload support.
+
+### 6. Admin Panel
+Custom-styled Django admin with red gradient theme, search, and filter capabilities.
+
+![Admin Panel](Exercise-2.8/screenshots/Admin%20panel.png)
+
+### 7. About Page
+Developer information with links to GitHub, LinkedIn, and other professional profiles.
+
+---
+
+## 🚀 Features in Detail
+
+### User Authentication System
+- **Registration**: New users can sign up with username and password
+- **Login**: Secure authentication with Django's built-in system
+- **Logout**: Clear session and redirect to success page
+- **Protected Views**: Login required for recipes, add recipe features
+- **Auto-login**: Users automatically logged in after registration
+
+### Recipe Management
+- **View All Recipes**: Paginated list view (12 recipes per page)
+- **Search by Name**: Partial, case-insensitive matching
+- **Filter by Ingredient**: Search within comma-separated ingredients
+- **Filter by Difficulty**: Easy, Medium, Intermediate, Hard options
+- **Add New Recipes**: Authenticated users can contribute recipes
+- **Recipe Details**: Complete information display with formatting
+- **Automatic Difficulty**: Calculated based on time and ingredients
+
+### Data Analysis & Visualization
+- **pandas Integration**: QuerySet to DataFrame conversion
+- **Multiple Chart Types**: Bar, Pie, Line charts available
+- **Dynamic Generation**: Charts update based on search results
+- **Base64 Encoding**: Charts embedded directly in HTML
+- **Professional Styling**: Color-coded, labeled, with legends
+
+### Admin Interface
+- **Custom Theme**: Red gradient matching app branding
+- **Enhanced Search**: Search by name, ingredients, description
+- **Smart Filters**: Filter by user, category, cooking time
+- **Difficulty Display**: Shows calculated difficulty in list view
+- **Bulk Actions**: Manage multiple recipes at once
+
+## 🔒 Security Features
+
+- **CSRF Protection**: All forms protected against CSRF attacks
+- **SQL Injection Prevention**: Django ORM prevents SQL injection
+- **XSS Protection**: Template auto-escaping enabled
+- **Password Hashing**: PBKDF2 algorithm for password storage
+- **HTTPS Enforcement**: SSL redirect in production
+- **Secure Cookies**: Session and CSRF cookies marked secure
+- **Environment Variables**: Sensitive data stored securely
+- **Input Validation**: Form validation on all user inputs
+
+## 📊 Performance & Optimization
+
+- **Database Indexing**: Primary and foreign keys automatically indexed
+- **Query Optimization**: Efficient QuerySet usage
+- **Static File Serving**: WhiteNoise for efficient static files
+- **Image Processing**: Pillow for optimized image handling
+- **Pagination**: Prevents large data loads (12 items per page)
+- **Coverage Analysis**: 85% code coverage ensures reliability
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these steps:
+Contributions, issues, and feature requests are welcome! This project was created as part of CareerFoundry's Full-Stack Web Development program.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+### How to Contribute
+
+1. **Fork the repository**
+   ```bash
+   # Click "Fork" button on GitHub
+   ```
+
+2. **Clone your fork**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/recipe-app.git
+   cd recipe-app
+   ```
+
+3. **Create a feature branch**
+   ```bash
+   git checkout -b feature/AmazingFeature
+   ```
+
+4. **Make your changes**
+   - Write clean, documented code
+   - Follow existing code style
+   - Add tests for new features
+   - Update documentation as needed
+
+5. **Run tests**
+   ```bash
+   cd recipe_project
+   python manage.py test apps.recipe
+   ```
+
+6. **Commit your changes**
+   ```bash
+   git add .
+   git commit -m "Add some AmazingFeature"
+   ```
+
+7. **Push to your fork**
+   ```bash
+   git push origin feature/AmazingFeature
+   ```
+
+8. **Open a Pull Request**
+   - Go to the original repository
+   - Click "New Pull Request"
+   - Select your feature branch
+   - Describe your changes
+
+### Code Style Guidelines
+
+- Follow PEP 8 for Python code
+- Use meaningful variable and function names
+- Write docstrings for all functions and classes
+- Keep functions focused and concise
+- Comment complex logic
+- Maintain consistent indentation (4 spaces)
+
+### Testing Requirements
+
+- Write tests for new features
+- Ensure all existing tests pass
+- Aim for high code coverage (>80%)
+- Test edge cases and error handling
 
 ## 📝 License
 
-This project was created as part of CareerFoundry's Full-Stack Web Development Program (Achievement 2).
+This project was created as part of CareerFoundry's Full-Stack Web Development Program (Achievement 2 - Exercise 2.8).
+
+**Educational Use:** This project is for educational and portfolio purposes.
+
+**Technologies Used:**
+- Django Framework: [BSD License](https://github.com/django/django/blob/main/LICENSE)
+- pandas: [BSD 3-Clause License](https://github.com/pandas-dev/pandas/blob/main/LICENSE)
+- matplotlib: [PSF-based License](https://matplotlib.org/stable/users/project/license.html)
 
 ## 👤 Author
 
 **Sourav Das**
-- GitHub: [@souravdas090300](https://github.com/souravdas090300)
-- Repository: [recipe-app](https://github.com/souravdas090300/recipe-app)
+
+- **Email**: souravdas090300@gmail.com
+- **GitHub**: [@souravdas090300](https://github.com/souravdas090300)
+- **LinkedIn**: [Connect with me](https://www.linkedin.com/in/sourav-das-b57801175/)
+- **Portfolio**: [View my work](https://github.com/souravdas090300)
+
+### About the Developer
+
+I'm a Full-Stack Web Developer passionate about building user-friendly, scalable web applications. This Recipe App demonstrates my skills in:
+- Django framework and Python programming
+- Data analysis and visualization
+- Database design and management
+- User authentication and security
+- Responsive web design
+- Test-driven development
+- Production deployment
 
 ## 🙏 Acknowledgments
 
-- CareerFoundry for the project structure and guidance
-- Django documentation and community
-- All open-source contributors
+- **CareerFoundry**: For the comprehensive Full-Stack Web Development curriculum and project structure
+- **My Mentor**: For guidance, code reviews, and technical support throughout Achievement 2
+- **Django Documentation**: Excellent official documentation that made learning Django smooth
+- **Django Community**: For Stack Overflow answers and open-source contributions
+- **Python Community**: For creating and maintaining excellent libraries (pandas, matplotlib)
+- **Heroku**: For providing free hosting for student projects
+
+## � Learning Resources
+
+Resources that helped build this project:
+
+### Official Documentation
+- [Django Documentation](https://docs.djangoproject.com/)
+- [pandas Documentation](https://pandas.pydata.org/docs/)
+- [matplotlib Documentation](https://matplotlib.org/stable/)
+- [Heroku Python Guide](https://devcenter.heroku.com/articles/getting-started-with-python)
+
+### Tutorials & Guides
+- [Real Python - Django Tutorials](https://realpython.com/tutorials/django/)
+- [Django Girls Tutorial](https://tutorial.djangogirls.org/)
+- [MDN Django Tutorial](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django)
+
+### Tools & Libraries
+- [Django](https://www.djangoproject.com/) - Web framework
+- [pandas](https://pandas.pydata.org/) - Data analysis
+- [matplotlib](https://matplotlib.org/) - Data visualization
+- [Pillow](https://python-pillow.org/) - Image processing
+- [Heroku](https://www.heroku.com/) - Cloud platform
 
 ## 📞 Support
 
-For support, please open an issue in the GitHub repository or contact the maintainer.
+If you have questions or need help with this project:
+
+### For Users
+- **Found a bug?** Open an issue on [GitHub Issues](https://github.com/souravdas090300/recipe-app/issues)
+- **Have a question?** Check existing issues or create a new one
+- **Need help deploying?** See the [Deployment](#deployment) section
+
+### For Developers
+- **Want to contribute?** See [Contributing](#contributing) section
+- **Code questions?** Review the [docs/CODE_DOCUMENTATION.md](docs/CODE_DOCUMENTATION.md)
+- **Test questions?** See [Exercise-2.8/TESTING_REPORT.md](Exercise-2.8/TESTING_REPORT.md)
+
+## 🎓 Exercise 2.8 Submission
+
+This project fulfills the requirements for CareerFoundry's Achievement 2, Exercise 2.8:
+
+### ✅ Deliverables Completed
+
+1. **Live Website**: https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/
+2. **GitHub Repository**: https://github.com/souravdas090300/recipe-app
+3. **Exercise 2.8 Folder**: [Exercise-2.8/](Exercise-2.8/)
+
+### ✅ Features Implemented
+
+- [x] Well-formatted homepage with navigation
+- [x] Recipe viewing and searching subpages
+- [x] User login and signup forms
+- [x] Add recipe feature (authenticated users)
+- [x] About Me page with professional links
+- [x] 15+ pre-loaded sample recipes
+- [x] Data visualization with multiple chart types
+- [x] Comprehensive test suite (39 tests, 85% coverage)
+- [x] Production deployment on Heroku
+- [x] Mentor superuser account created
+- [x] Fully documented code
+
+### 📂 Repository Structure
+
+```
+recipe-app/
+├── Exercise-2.8/              # Exercise submission materials
+├── docs/                      # Code documentation
+├── recipe_project/            # Django application
+├── .gitignore                 # Git ignore rules
+└── README.md                  # This file
+```
+
+## 🔄 Version History
+
+### Version 1.0.0 (November 4, 2025)
+- ✅ Initial release
+- ✅ Complete Exercise 2.8 requirements
+- ✅ Production deployment on Heroku
+- ✅ 39 tests with 85% coverage
+- ✅ Full code documentation
+- ✅ 15 sample recipes loaded
+
+### Future Enhancements
+- [ ] AWS S3 integration for image storage
+- [ ] Recipe rating and review system
+- [ ] User profiles with favorite recipes
+- [ ] Recipe export to PDF
+- [ ] Social media sharing
+- [ ] Advanced filtering (multiple criteria)
+- [ ] REST API for mobile apps
+- [ ] Nutrition information calculator
 
 ---
 
-**Note**: This application is a learning project and may not be suitable for production use without further security enhancements and optimizations.
+## 📌 Quick Links
+
+- **Live App**: https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/
+- **GitHub Repo**: https://github.com/souravdas090300/recipe-app
+- **Exercise Folder**: [Exercise-2.8/](Exercise-2.8/)
+- **Test Report**: [Exercise-2.8/TESTING_REPORT.md](Exercise-2.8/TESTING_REPORT.md)
+- **Code Docs**: [docs/CODE_DOCUMENTATION.md](docs/CODE_DOCUMENTATION.md)
+- **Author**: [@souravdas090300](https://github.com/souravdas090300)
+
+---
+
+**⭐ If you find this project helpful, please give it a star on GitHub!**
+
+**📧 Questions? Contact**: souravdas090300@gmail.com
+
+---
+
+*Last Updated: November 4, 2025*  
+*Project Status: ✅ Complete and Deployed*  
+*Django Version: 5.2.7*  
+*Python Version: 3.14.0*
