@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 # Django authentication libraries
 from django.contrib.auth import authenticate, login, logout
 # Django Form for authentication
-from django.contrib.auth.forms import AuthenticationForm    
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User    
 
 # Define a function view called login_view that takes a request from user
 def login_view(request):
@@ -46,3 +47,28 @@ def logout_view(request):
     logout(request)
     # After logging out go to success page
     return render(request, 'auth/success.html')
+
+
+# Define a function view called signup_view for user registration
+def signup_view(request):
+    error_message = None
+    form = UserCreationForm()
+    
+    if request.method == 'POST':
+        form = UserCreationForm(data=request.POST)
+        
+        if form.is_valid():
+            # Create the user
+            user = form.save()
+            # Log the user in automatically after signup
+            login(request, user)
+            # Redirect to recipes list
+            return redirect('recipe:recipes-list')
+        else:
+            error_message = 'Please correct the errors below'
+    
+    context = {
+        'form': form,
+        'error_message': error_message
+    }
+    return render(request, 'auth/signup.html', context)
