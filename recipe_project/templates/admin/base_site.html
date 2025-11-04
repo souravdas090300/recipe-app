@@ -52,13 +52,34 @@
         text-decoration: none !important;
         display: inline-block !important;
         margin-left: 8px !important;
+        background: rgba(255, 182, 193, 0.3) !important; /* Light pink background */
     }
     
     #user-tools a:hover {
-        background: rgba(255,255,255,0.2) !important;
+        background: rgba(255, 182, 193, 0.5) !important; /* Darker pink on hover */
     }
     
-    /* Breadcrumbs */
+    /* Home button - light pink background with white text */
+    .home-button {
+        background: rgba(255, 182, 193, 0.3) !important; /* Light pink background */
+        color: white !important;
+        padding: 10px 20px !important;
+        border-radius: 6px !important;
+        text-decoration: none !important;
+        font-weight: 600 !important;
+        margin-right: 20px !important;
+        display: inline-block !important;
+        transition: all 0.3s ease !important;
+        border: none !important;
+        vertical-align: middle !important;
+    }
+    
+    .home-button:hover {
+        background: rgba(255, 182, 193, 0.5) !important; /* Darker pink on hover */
+        color: white !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+    }
     .breadcrumbs {
         background: #f8f8f8 !important;
         padding: 15px 20px !important;
@@ -222,44 +243,23 @@
         border: 1px solid #f5c6cb !important;
     }
     
-    /* App labels (Authentication and Authorization, Recipe) */
+    /* App labels (Authentication and Authorization, Recipe) - WHITE TEXT */
     #content-main h2, .app-recipe h2, .app-auth h2, 
     caption, th.required, .module caption {
-        color: #333 !important;
+        color: white !important;
         font-weight: 700 !important;
     }
     
-    /* Dashboard app labels - make them dark and visible */
+    /* Dashboard app labels - make them white */
     .module caption a, #content h2 a, .app-recipe caption a, 
     .dashboard #content h2 {
-        color: #333 !important;
+        color: white !important;
         text-decoration: none !important;
     }
     
     .module caption a:hover, #content h2 a:hover {
-        color: #e74c3c !important;
-    }
-    
-    /* Home button - fixed positioning */
-    .home-button {
-        background: white !important;
-        color: #e74c3c !important;
-        padding: 10px 20px !important;
-        border-radius: 6px !important;
-        text-decoration: none !important;
-        font-weight: 600 !important;
-        margin-right: 20px !important;
-        display: inline-block !important;
-        transition: all 0.3s ease !important;
-        border: 2px solid white !important;
-        vertical-align: middle !important;
-    }
-    
-    .home-button:hover {
-        background: rgba(255,255,255,0.9) !important;
-        color: #c0392b !important;
-        transform: translateY(-2px) !important;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
+        color: rgba(255,255,255,0.9) !important;
+        text-decoration: underline !important;
     }
     
     .home-button::before {
