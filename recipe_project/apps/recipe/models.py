@@ -23,8 +23,8 @@ class Recipe(models.Model):
 	ingredients = models.TextField(help_text='Comma-separated list of ingredients')
 	description = models.TextField(blank=True, null=True)
 	category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='lunch')
-	# Image for the recipe; stored under MEDIA_ROOT/recipes; optional default if not provided
-	pic = models.ImageField(upload_to='recipes', default='no_picture.jpg')
+	# Image for the recipe; stored under MEDIA_ROOT/recipes; optional (blank=True, null=True)
+	pic = models.ImageField(upload_to='recipes', blank=True, null=True)
 	# ForeignKey relationship with User for recipe ownership (one user can have many recipes)
 	user = models.ForeignKey("auth.User", on_delete=models.CASCADE, related_name='recipes')
 
