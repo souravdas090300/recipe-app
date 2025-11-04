@@ -1,1 +1,1 @@
-web: gunicorn config.wsgi --log-file -
+web: cd recipe_project && gunicorn config.wsgi --log-file -
