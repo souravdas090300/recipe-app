@@ -114,7 +114,8 @@ cd recipe_project
 
 4. **Install dependencies**
 ```bash
-pip install -r requirements.txt
+# From the repository root
+pip install -r recipe_project/requirements/dev.txt
 ```
 
 5. **Run migrations**
