@@ -1,1 +1,4 @@
 -r base.txt
+
+# Development-only tools
+coverage==7.11.0
