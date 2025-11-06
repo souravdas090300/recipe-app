@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Recipe App{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <script src="{% static 'home.js' %}" defer></script>
     <style>
         * {
             margin: 0;
@@ -43,28 +41,49 @@
             font-size: 1.8rem;
             font-weight: bold;
             color: #e74c3c;
-            text-decoration: none;
         }
 
-        .logo:hover {
-            color: #c0392b;
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 2rem;
         }
 
-        .nav-links {
+        .search-bar form {
+            position: relative;
             display: flex;
-            gap: 2rem;
             align-items: center;
         }
 
-        .nav-links a {
-            color: #333;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
+        .search-bar input[type="text"] {
+            width: 100%;
+            padding: 0.8rem 3rem 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
         }
 
-        .nav-links a:hover {
-            color: #e74c3c;
+        .search-bar input[type="text"]:focus {
+            outline: none;
+            border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #c0392b;
         }
 
         .auth-buttons {
@@ -85,23 +104,99 @@
             transition: all 0.3s ease;
         }
 
-        .btn-primary {
-            background: #e74c3c;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #c0392b;
-        }
-
-        .btn-secondary {
+        .login {
             background: transparent;
             color: #333;
             border: 1px solid #ddd;
         }
 
-        .btn-secondary:hover {
+        .login:hover {
             background: #f0f0f0;
+        }
+
+        .signup {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .signup:hover {
+            background: #c0392b;
+        }
+
+        /* Main Navigation Menu */
+        .main-nav {
+            background: #f8f8f8;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0;
+        }
+
+        .main-nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-button:hover {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 280px;
+            max-width: 350px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            border-radius: 0 0 8px 8px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: #555;
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-menu a:hover {
+            background: #fff5f5;
+            color: #e74c3c;
+            padding-left: 2rem;
+        }
+
+        .dropdown-menu a:last-child {
+            border-bottom: none;
         }
 
         /* Main Content Area */
@@ -109,65 +204,199 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            min-height: 400px;
         }
 
-        /* Footer */
-        footer {
-            background: white;
+        /* Footer Styles */
+        .footer-main {
+            background: #f8f8f8;
+            padding: 3rem 2rem 1rem;
             border-top: 1px solid #e0e0e0;
-            padding: 2rem;
-            margin-top: 3rem;
         }
 
-        .footer-content {
+        .footer-container {
             max-width: 1400px;
             margin: 0 auto;
-            text-align: center;
-            color: #666;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
         }
 
-        .footer-content a {
+        .footer-section h3 {
             color: #e74c3c;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: #666;
             text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
         }
 
-        .footer-content a:hover {
-            text-decoration: underline;
+        .footer-links a:hover {
+            color: #e74c3c;
         }
 
-    /* Additional Styles Block */
+        /* Footer Bottom */
+        .footer-bottom {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .footer-bottom-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .publishing-info {
+            font-size: 0.9rem;
+            color: #bdc3c7;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-nav a {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-nav a:hover {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-top {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .search-bar {
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .main-nav-container {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+                text-align: left;
+                padding: 1rem;
+            }
+
+            .dropdown-menu {
+                position: static;
+                display: none;
+                width: 100%;
+                box-shadow: none;
+                border-left: 3px solid #e74c3c;
+                background: #fafafa;
+            }
+
+            .nav-item:hover .dropdown-menu {
+                display: block;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-nav {
+                justify-content: center;
+            }
+        }
     </style>
     {% block extra_styles %}{% endblock %}
 </head>
 <body>
-    <!-- Header with Navigation -->
+    <!-- Header with Search -->
     <header>
         <div class="nav-top">
-            <a href="{% url 'recipe:home' %}" class="logo">🍳 Recipe App</a>
-            
-            <nav class="nav-links">
-                <a href="{% url 'recipe:home' %}">Home</a>
-                <a href="{% url 'recipe:recipes-list' %}">Recipes</a>
-                {% if user.is_authenticated %}
-                <a href="{% url 'recipe:recipe-add' %}">Add Recipe</a>
-                {% endif %}
-                <a href="{% url 'recipe:about' %}">About</a>
-                {% if user.is_authenticated %}
-                    <a href="/admin/">Admin</a>
-                {% endif %}
-            </nav>
-
+            <div class="logo">🍳 Recipe App</div>
+            <div class="search-bar">
+                <form action="{% url 'recipe:recipes-list' %}" method="get">
+                    <input type="hidden" name="chart_type" value="#1">
+                    <input type="text" name="recipe_name" placeholder="Search recipes by name..." value="{{ request.GET.recipe_name }}">
+                    <button type="submit" class="search-btn">Search</button>
+                </form>
+            </div>
             <div class="auth-buttons">
                 {% if user.is_authenticated %}
-                    <span style="margin-right: 1rem; color: #666;">Welcome, {{ user.username }}!</span>
-                    <a href="{% url 'logout' %}"><button class="btn-primary">Logout</button></a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231"><button class="signup">View Recipes</button></a>
+                    <a href="{% url 'logout' %}"><button class="login">Logout</button></a>
                 {% else %}
-                    <a href="{% url 'login' %}"><button class="btn-secondary">Log In</button></a>
-                    <a href="{% url 'recipe:recipes-list' %}"><button class="btn-primary">View Recipes</button></a>
+                    <a href="{% url 'login' %}"><button class="login">Log In</button></a>
+                    <a href="{% url 'signup' %}"><button class="signup">Sign Up</button></a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231"><button class="signup">View Recipes</button></a>
                 {% endif %}
             </div>
         </div>
     </header>
+
+    <!-- Main Navigation Menu -->
+    <nav class="main-nav">
+        <div class="main-nav-container">
+            <!-- Browse Recipes -->
+            <div class="nav-item">
+                <button class="nav-button">Browse</button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">All Recipes</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Search Recipes</a>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'recipe:recipe-add' %}">Add Recipes</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- By Category -->
+            <div class="nav-item">
+                <button class="nav-button">Categories</button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'recipe:recipes-list' %}?category=breakfast&chart_type=%231">Breakfast</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=lunch&chart_type=%231">Lunch</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=dinner&chart_type=%231">Dinner</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=dessert&chart_type=%231">Desserts</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=snack&chart_type=%231">Snacks</a>
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="nav-item">
+                <button class="nav-button">About</button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'recipe:about' %}">About This Project</a>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <!-- Main Content -->
     <main class="content">
@@ -176,19 +405,13 @@
     </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 Recipe App. Built with Django.</p>
-            <p>
-                <a href="{% url 'recipe:home' %}">Home</a> | 
-                <a href="{% url 'recipe:recipes-list' %}">Recipes</a> | 
-                <a href="{% url 'recipe:about' %}">About</a>
-                {% if user.is_authenticated %}
-                | <a href="/admin/">Admin</a>
-                {% endif %}
-            </p>
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <div class="publishing-info">
+                © 2025 Recipe App.
+            </div>
         </div>
-    </footer>
+    </div>
 
     <!-- Additional Scripts Block -->
     {% block extra_scripts %}{% endblock %}
