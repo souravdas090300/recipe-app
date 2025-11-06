@@ -1,5 +1,8 @@
 from .base import *
 
+# Add WhiteNoise middleware for production static file serving
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+
 # SECURITY WARNING: keep the secret key used in production secret!
 # In real production, use environment variable and DO NOT hardcode secrets.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-this-in-production')
