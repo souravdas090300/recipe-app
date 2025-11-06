@@ -3,6 +3,15 @@ from .base import *
 # Add WhiteNoise middleware for production static file serving
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
+# WhiteNoise configuration for static files
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# IMPORTANT: For production, you should use cloud storage (AWS S3, Cloudinary, etc.)
+# for media files because Heroku's filesystem is ephemeral.
+# This is a temporary solution - media files will be lost on dyno restart.
+WHITENOISE_AUTOREFRESH = True
+WHITENOISE_USE_FINDERS = True
+
 # SECURITY WARNING: keep the secret key used in production secret!
 # In real production, use environment variable and DO NOT hardcode secrets.
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-this-in-production')
