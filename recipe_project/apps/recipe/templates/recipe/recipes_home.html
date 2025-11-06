@@ -49,17 +49,41 @@
             margin: 0 2rem;
         }
 
-        .search-bar input {
+        .search-bar form {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar input[type="text"] {
             width: 100%;
-            padding: 0.8rem 1rem;
+            padding: 0.8rem 3rem 0.8rem 1rem;
             border: 1px solid #ddd;
             border-radius: 25px;
             font-size: 1rem;
         }
 
-        .search-bar input:focus {
+        .search-bar input[type="text"]:focus {
             outline: none;
             border-color: #e74c3c;
+            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #c0392b;
         }
 
         .auth-buttons {
@@ -453,10 +477,10 @@
         <div class="nav-top">
             <div class="logo">🍳 Recipe App</div>
             <div class="search-bar">
-                <form action="{% url 'recipe:recipes-list' %}" method="get" style="margin: 0;">
+                <form action="{% url 'recipe:recipes-list' %}" method="get">
                     <input type="hidden" name="chart_type" value="#1">
-                    <input type="hidden" name="difficulty" value="">
-                    <input type="text" name="recipe_name" placeholder="What would you like to cook today?" onkeypress="if(event.key==='Enter'){this.form.submit();}">
+                    <input type="text" name="recipe_name" placeholder="Search recipes by name..." required>
+                    <button type="submit" class="search-btn">Search</button>
                 </form>
             </div>
             <div class="auth-buttons">
@@ -476,6 +500,7 @@
                 <div class="dropdown-menu">
                     <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">All Recipes</a>
                     <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Search Recipes</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Add Recipes</a>
                 </div>
             </div>
 
@@ -483,11 +508,11 @@
             <div class="nav-item">
                 <button class="nav-button">Categories</button>
                 <div class="dropdown-menu">
-                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Breakfast</a>
-                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Lunch</a>
-                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Dinner</a>
-                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Desserts</a>
-                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Snacks</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=breakfast&chart_type=%231">Breakfast</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=lunch&chart_type=%231">Lunch</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=dinner&chart_type=%231">Dinner</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=dessert&chart_type=%231">Desserts</a>
+                    <a href="{% url 'recipe:recipes-list' %}?category=snack&chart_type=%231">Snacks</a>
                 </div>
             </div>
 
@@ -496,7 +521,6 @@
                 <button class="nav-button">About</button>
                 <div class="dropdown-menu">
                     <a href="{% url 'recipe:about' %}">About This Project</a>
-                    <a href="/admin/">Admin Panel</a>
                 </div>
             </div>
         </div>
@@ -535,19 +559,19 @@
     <section class="categories">
         <h2 class="section-title">Browse by Category</h2>
         <div class="categories-grid">
-                <a href="{% url 'recipe:recipes-list' %}?chart_type=%231" style="text-decoration: none; color: inherit;">
+                <a href="{% url 'recipe:recipes-list' %}?category=breakfast&chart_type=%231" style="text-decoration: none; color: inherit;">
                     <div class="category-item">Breakfast</div>
                 </a>
-                <a href="{% url 'recipe:recipes-list' %}?chart_type=%231" style="text-decoration: none; color: inherit;">
+                <a href="{% url 'recipe:recipes-list' %}?category=lunch&chart_type=%231" style="text-decoration: none; color: inherit;">
                     <div class="category-item">Lunch</div>
                 </a>
-                <a href="{% url 'recipe:recipes-list' %}?chart_type=%231" style="text-decoration: none; color: inherit;">
+                <a href="{% url 'recipe:recipes-list' %}?category=dinner&chart_type=%231" style="text-decoration: none; color: inherit;">
                     <div class="category-item">Dinner</div>
                 </a>
-                <a href="{% url 'recipe:recipes-list' %}?chart_type=%231" style="text-decoration: none; color: inherit;">
+                <a href="{% url 'recipe:recipes-list' %}?category=dessert&chart_type=%231" style="text-decoration: none; color: inherit;">
                     <div class="category-item">Desserts</div>
                 </a>
-                <a href="{% url 'recipe:recipes-list' %}?chart_type=%231" style="text-decoration: none; color: inherit;">
+                <a href="{% url 'recipe:recipes-list' %}?category=snack&chart_type=%231" style="text-decoration: none; color: inherit;">
                     <div class="category-item">Snacks</div>
                 </a>
                 <a href="{% url 'recipe:recipes-list' %}?chart_type=%231" style="text-decoration: none; color: inherit;">

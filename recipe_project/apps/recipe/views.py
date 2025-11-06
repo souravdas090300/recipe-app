@@ -176,6 +176,7 @@ class RecipeListView(LoginRequiredMixin, ListView):
             ingredient = data.get('ingredient')         # Ingredient filter
             chart_type = data.get('chart_type')        # Chart visualization type (#1, #2, #3)
             difficulty = data.get('difficulty')         # Difficulty level filter
+            category = data.get('category')             # Category filter (breakfast, lunch, dinner, dessert, snack)
             
             # Start with all recipes in the database
             qs = Recipe.objects.all()
@@ -191,7 +192,12 @@ class RecipeListView(LoginRequiredMixin, ListView):
             if ingredient:
                 qs = qs.filter(ingredients__icontains=ingredient)
             
-            # Filter 3: Difficulty - Filter by calculated difficulty level
+            # Filter 3: Category - Exact match filter for recipe category
+            # Example: "breakfast" shows only breakfast recipes
+            if category:
+                qs = qs.filter(category=category)
+            
+            # Filter 4: Difficulty - Filter by calculated difficulty level
             # Note: difficulty() is a method, not a database field, so we filter manually
             if difficulty:
                 # Create list to store IDs of recipes matching difficulty
