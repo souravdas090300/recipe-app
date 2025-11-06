@@ -66,7 +66,15 @@ if USE_S3:
     AWS_S3_FILE_OVERWRITE = False
     
     # Media files configuration - Use custom storage backend
-    DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
+    # Django 4.2+ uses STORAGES setting instead of DEFAULT_FILE_STORAGE
+    STORAGES = {
+        'default': {
+            'BACKEND': 'config.storage_backends.MediaStorage',
+        },
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
 else:
     # Fallback to local storage (for testing)
