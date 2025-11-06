@@ -14,6 +14,17 @@ print("=" * 60)
 print("S3 Configuration Test")
 print("=" * 60)
 
+# Debug environment variables
+print("\nEnvironment Variables:")
+print(f"  DJANGO_SETTINGS_MODULE: {os.environ.get('DJANGO_SETTINGS_MODULE', 'NOT SET')}")
+print(f"  USE_S3: {os.environ.get('USE_S3', 'NOT SET')}")
+print(f"  AWS_STORAGE_BUCKET_NAME: {os.environ.get('AWS_STORAGE_BUCKET_NAME', 'NOT SET')}")
+
+# Import settings to check USE_S3
+from django.conf import settings
+print(f"\nDjango Settings:")
+print(f"  settings.USE_S3: {getattr(settings, 'USE_S3', 'NOT DEFINED')}")
+
 # Check storage backend
 print(f"\n1. Storage Backend: {type(default_storage).__name__}")
 print(f"   Module: {type(default_storage).__module__}")
