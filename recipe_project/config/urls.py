@@ -12,6 +12,9 @@ urlpatterns = [
     path('signup/', signup_view, name='signup'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# Serve media files in both development and production
+# NOTE: For production, you should use cloud storage (AWS S3, Cloudinary)
+# This is a temporary solution for Heroku
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
