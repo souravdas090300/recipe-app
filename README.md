@@ -59,16 +59,18 @@ A comprehensive recipe management and discovery platform built with Django, feat
   - PostgreSQL (production - Heroku)
 
 ### Data Analysis & Visualization
-- **pandas**: 2.2.3 - Data manipulation and analysis
-- **matplotlib**: 3.9.3 - Chart generation (bar, pie, line)
-- **Pillow**: 11.0.0 - Image processing
+- **pandas**: 2.3.3 - Data manipulation and analysis
+- **matplotlib**: 3.10.7 - Chart generation (bar, pie, line)
+- **Pillow**: 12.0.0 - Image processing
 
 ### Deployment & Production
 - **Heroku**: Cloud platform hosting
 - **Gunicorn**: 23.0.0 - WSGI HTTP server
-- **WhiteNoise**: 6.8.2 - Static file serving
-- **psycopg2-binary**: 2.9.10 - PostgreSQL adapter
-- **dj-database-url**: 2.3.0 - Database configuration
+- **WhiteNoise**: 6.11.0 - Static file serving
+- **psycopg2-binary**: 2.9.11 - PostgreSQL adapter
+- **dj-database-url**: 3.0.1 - Database configuration
+- **django-storages**: 1.14.4 - S3 storage backend
+- **boto3**: 1.35.71 - AWS SDK for Python
 
 ### Frontend
 - **HTML5** - Semantic markup
@@ -303,6 +305,7 @@ Test Breakdown:
 - **Stack**: heroku-24
 - **Database**: PostgreSQL (essential-0)
 - **Dyno**: 1 web dyno
+ - **Buildpacks**: Subdir buildpack (PROJECT_PATH=recipe_project), heroku/python
 
 ### Deploy Your Own Instance
 
@@ -328,10 +331,17 @@ git checkout main
 heroku login
 ```
 
-**3. Create Heroku App**
+**3. Create Heroku App (subdirectory deployment)**
 ```bash
 cd recipe_project
 heroku create your-unique-app-name
+```
+
+Add the Subdir buildpack and set the project path so Heroku builds from the `recipe_project` folder:
+```bash
+heroku buildpacks:add https://github.com/timanovsky/subdir-heroku-buildpack
+heroku buildpacks:add heroku/python
+heroku config:set PROJECT_PATH=recipe_project
 ```
 
 **4. Add PostgreSQL Database**
@@ -362,7 +372,7 @@ heroku config:set DJANGO_CSRF_COOKIE_SECURE=true
 **6. Deploy to Heroku**
 ```bash
 # Ensure Procfile exists in recipe_project directory
-# Content: web: cd recipe_project && gunicorn config.wsgi --log-file -
+# Content: web: gunicorn config.wsgi --log-file -
 
 # Push to Heroku
 git push heroku main
@@ -398,33 +408,30 @@ DJANGO_CSRF_TRUSTED_ORIGINS # HTTPS URL of your app
 DATABASE_URL                # Auto-set by Heroku PostgreSQL addon
 DJANGO_SECURE_SSL_REDIRECT  # Set to "true" for HTTPS redirect
 DJANGO_SESSION_COOKIE_SECURE # Set to "true" for secure cookies
-DJANGO_CSRF_COOKIE_SECURE   # Set to "true" for secure CSRF cookies
+ DJANGO_CSRF_COOKIE_SECURE   # Set to "true" for secure CSRF cookies
+ USE_S3                      # Set to "true" to enable S3 media storage
+ AWS_ACCESS_KEY_ID           # IAM user access key
+ AWS_SECRET_ACCESS_KEY       # IAM user secret key
+ AWS_STORAGE_BUCKET_NAME     # Your S3 bucket name
+ AWS_S3_REGION_NAME          # Bucket region, e.g. eu-central-1
 ```
 
 ### Production Files
 
 **Procfile** (in recipe_project directory):
 ```
-web: cd recipe_project && gunicorn config.wsgi --log-file -
+web: gunicorn config.wsgi --log-file -
 ```
 
-**runtime.txt** (specifies Python version):
-```
-python-3.14.0
-```
+**Python version file**:
+- Heroku is deprecating `runtime.txt`. Prefer `.python-version` in the project root.
+   - Example content: `3.14`
 
-**requirements.txt** (all dependencies):
-```
-Django==5.2.7
-pandas==2.2.3
-matplotlib==3.9.3
-Pillow==11.0.0
-gunicorn==23.0.0
-psycopg2-binary==2.9.10
-whitenoise==6.8.2
-dj-database-url==2.3.0
-coverage==7.11.0
-```
+**Requirements files**:
+- Dependencies are split by environment under `recipe_project/requirements/`:
+   - `base.txt` (shared)
+   - `dev.txt` (development extras)
+   - `prod.txt` (production extras: gunicorn, whitenoise, dj-database-url, psycopg2-binary, boto3, django-storages)
 
 ### Troubleshooting Deployment
 
@@ -455,6 +462,78 @@ heroku logs --tail
 ```bash
 heroku restart
 ```
+
+### Media Storage: AWS S3 (Production)
+
+This app stores user-uploaded media (recipe images) on Amazon S3 in production.
+
+1) Install dependencies (already included in `prod.txt`):
+- `django-storages==1.14.4`
+- `boto3==1.35.71`
+
+2) Configure IAM and S3
+- Create an S3 bucket (e.g. `recipe-app-media-<your-suffix>`) in your region (e.g. `eu-central-1`).
+- Create an IAM user for the app (programmatic access) and attach S3 permissions (e.g. AmazonS3FullAccess for testing; restrict later).
+- In the S3 Bucket → Permissions:
+   - Uncheck "Block all public access" if you want public read access to images.
+   - Bucket policy to allow public GET and your IAM user access:
+
+   ```json
+   {
+      "Version": "2012-10-17",
+      "Statement": [
+         {
+            "Sid": "PublicReadGetObject",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::YOUR_BUCKET_NAME/*"
+         }
+      ]
+   }
+   ```
+
+   - CORS configuration (optional, for browser uploads):
+
+   ```json
+   [
+      {
+         "AllowedHeaders": ["*"],
+         "AllowedMethods": ["GET", "HEAD"],
+         "AllowedOrigins": ["*"]
+      }
+   ]
+   ```
+
+3) Set Heroku config vars
+```bash
+heroku config:set USE_S3=true \
+   AWS_ACCESS_KEY_ID=YOUR_KEY \
+   AWS_SECRET_ACCESS_KEY=YOUR_SECRET \
+   AWS_STORAGE_BUCKET_NAME=YOUR_BUCKET_NAME \
+   AWS_S3_REGION_NAME=eu-central-1 \
+   --app your-unique-app-name
+```
+
+4) Django settings (already wired)
+- Production settings (`config/settings/prod.py`) use `STORAGES` with `config.storage_backends.MediaStorage`.
+- S3 uses a regional endpoint: `https://<bucket>.s3.<region>.amazonaws.com/media/`.
+- ACLs are disabled (`AWS_DEFAULT_ACL = None`). Use bucket policy for public read.
+
+5) Verify S3 connectivity (optional)
+- A helper script `recipe_project/test_s3.py` can be run on Heroku:
+```bash
+heroku run "python test_s3.py" --app your-unique-app-name
+```
+- Remove the script after verification in production environments.
+
+6) Common S3 errors
+- `AccessControlListNotSupported`: Remove ACLs; set `AWS_DEFAULT_ACL = None` and rely on bucket policy.
+- `403 Forbidden` on HeadObject/PutObject: Check IAM permissions, bucket policy, or region mismatch.
+- Wrong URLs or 404: Ensure regional endpoint and `MEDIA_URL` are correct.
+
+7) Security
+- Never commit AWS credentials. If keys are exposed, deactivate and rotate them immediately in IAM, then update Heroku config vars.
 
 ## 📁 Project Structure
 
@@ -523,6 +602,8 @@ recipe-app/
 │   │   ├── views.py                # Authentication views (login/signup/logout)
 │   │   └── wsgi.py                 # WSGI configuration
 │   │
+│   ├── config/storage_backends.py  # S3 media storage backend
+│   │
 │   ├── templates/                  # Project-level templates
 │   │   ├── admin/                  # Admin customization
 │   │   │   └── base_site.html      # Custom admin theme (red gradient)
@@ -578,7 +659,7 @@ recipe-app/
 - 85% code coverage
 - All tests passing (100% success rate)
 
-## � API Documentation
+## 📘 API Documentation
 
 ### Recipe Model API
 
@@ -876,7 +957,7 @@ I'm a Full-Stack Web Developer passionate about building user-friendly, scalable
 - **Python Community**: For creating and maintaining excellent libraries (pandas, matplotlib)
 - **Heroku**: For providing free hosting for student projects
 
-## � Learning Resources
+## 📚 Learning Resources
 
 Resources that helped build this project:
 
@@ -957,8 +1038,14 @@ recipe-app/
 - ✅ Full code documentation
 - ✅ 15 sample recipes loaded
 
+### Version 1.1.0 (November 6, 2025)
+- ✅ AWS S3 media storage in production via django-storages + boto3
+- ✅ Switched to Django STORAGES setting for default storage
+- ✅ Regional S3 endpoint and media URL
+- ✅ Disabled ACLs; use bucket policy for public read
+- ✅ Heroku subdir buildpack + PROJECT_PATH for monorepo layout
+
 ### Future Enhancements
-- [ ] AWS S3 integration for image storage
 - [ ] Recipe rating and review system
 - [ ] User profiles with favorite recipes
 - [ ] Recipe export to PDF
@@ -986,7 +1073,7 @@ recipe-app/
 
 ---
 
-*Last Updated: November 4, 2025*  
+*Last Updated: November 6, 2025*  
 *Project Status: ✅ Complete and Deployed*  
 *Django Version: 5.2.7*  
 *Python Version: 3.14.0*
