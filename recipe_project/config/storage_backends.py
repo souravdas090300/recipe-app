@@ -1,0 +1,10 @@
+"""
+Custom storage backends for AWS S3
+"""
+from storages.backends.s3boto3 import S3Boto3Storage
+
+
+class MediaStorage(S3Boto3Storage):
+    """Storage backend for media files (user uploads)"""
+    location = 'media'
+    file_overwrite = False
