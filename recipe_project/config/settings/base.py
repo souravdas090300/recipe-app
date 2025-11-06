@@ -14,6 +14,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Third-party apps
+    'storages',
     # Recipe app (single app design per mentor recommendation)
     'apps.recipe',
 ]
