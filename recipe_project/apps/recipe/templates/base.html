@@ -41,6 +41,13 @@
             font-size: 1.8rem;
             font-weight: bold;
             color: #e74c3c;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            color: #c0392b;
+            transform: scale(1.05);
         }
 
         .search-bar {
@@ -340,7 +347,9 @@
     <!-- Header with Search -->
     <header>
         <div class="nav-top">
-            <div class="logo">🍳 Recipe App</div>
+            <a href="{% url 'recipe:home' %}" style="text-decoration: none;">
+                <div class="logo">🍳 Recipe App</div>
+            </a>
             <div class="search-bar">
                 <form action="{% url 'recipe:recipes-list' %}" method="get">
                     <input type="hidden" name="chart_type" value="#1">
