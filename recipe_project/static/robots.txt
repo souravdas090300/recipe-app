@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /media/
+
+Sitemap: https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/sitemap.xml
