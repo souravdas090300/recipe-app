@@ -209,6 +209,61 @@
 </style>
 {% endblock %}
 
+<body>
+    <!-- Header with Search -->
+    <header>
+        <div class="nav-top">
+            <div class="logo">🍳 Recipe App</div>
+            <div class="search-bar">
+                <form action="{% url 'recipe:recipes-list' %}" method="get" style="margin: 0;">
+                    <input type="hidden" name="chart_type" value="#1">
+                    <input type="hidden" name="difficulty" value="">
+                    <input type="text" name="recipe_name" placeholder="What would you like to cook today?" onkeypress="if(event.key==='Enter'){this.form.submit();}">
+                </form>
+            </div>
+            <div class="auth-buttons">
+                <a href="{% url 'login' %}"><button class="login">Log In</button></a>
+                <a href="{% url 'signup' %}"><button class="signup">Sign Up</button></a>
+                <a href="{% url 'recipe:recipes-list' %}?chart_type=%231"><button class="signup">View Recipes</button></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Menu -->
+    <nav class="main-nav">
+        <div class="main-nav-container">
+            <!-- Browse Recipes -->
+            <div class="nav-item">
+                <button class="nav-button">Browse</button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">All Recipes</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Search Recipes</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Add Recipes</a>
+                </div>
+            </div>
+
+            <!-- By Category -->
+            <div class="nav-item">
+                <button class="nav-button">Categories</button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Breakfast</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Lunch</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Dinner</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Desserts</a>
+                    <a href="{% url 'recipe:recipes-list' %}?chart_type=%231">Snacks</a>
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="nav-item">
+                <button class="nav-button">About</button>
+                <div class="dropdown-menu">
+                    <a href="{% url 'recipe:about' %}">About This Project</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
 {% block content %}
 <div class="recipes-container">
     <div class="page-logo">🍳 Recipe App</div>
@@ -328,3 +383,12 @@
         {% endif %}
     </div>
 {% endblock %}
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="footer-bottom-content">
+            <div class="publishing-info">
+                © 2025 Recipe App.
+            </div>
+        </div>
+    </div>
