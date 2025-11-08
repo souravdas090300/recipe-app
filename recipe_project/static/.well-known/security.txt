@@ -1,0 +1,3 @@
+Contact: https://github.com/souravdas090300/recipe-app/issues
+Preferred-Languages: en
+Canonical: https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/.well-known/security.txt
