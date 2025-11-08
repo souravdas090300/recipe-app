@@ -78,7 +78,7 @@
         }
         .search-form {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
             align-items: end;
         }
@@ -103,6 +103,10 @@
             outline: none;
             border-color: #e74c3c;
         }
+        .search-btn-container {
+            display: flex;
+            align-items: flex-end;
+        }
         .search-btn {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
@@ -113,6 +117,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            width: 100%;
+            height: 48px;
         }
         .search-btn:hover {
             transform: translateY(-2px);
@@ -205,6 +211,52 @@
             h1 {
                 font-size: 1.8em;
             }
+            h2 {
+                font-size: 1.4em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .header-bar {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            .search-section {
+                padding: 15px;
+            }
+            .table-wrapper {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            table {
+                font-size: 0.9em;
+            }
+            th, td {
+                padding: 8px;
+                white-space: nowrap;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .recipes-container {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 1.5em;
+            }
+            .search-section {
+                padding: 10px;
+            }
+            .search-btn {
+                padding: 10px 20px;
+            }
+            table {
+                font-size: 0.8em;
+            }
+            th, td {
+                padding: 6px;
+            }
         }
 </style>
 {% endblock %}
@@ -271,32 +323,35 @@
     <!-- Search Form Section -->
     <div class="search-section">
         <h2>Search for Recipes</h2>
-        <form action="" method="GET" class="search-form">
+        <form action="" method="GET" class="search-form" id="searchForm">
             
-                
-                <div class="form-group">
-                    <label for="id_recipe_name">Recipe Name:</label>
-                    {{ form.recipe_name }}
-                </div>
-                
-                <div class="form-group">
-                    <label for="id_ingredient">Ingredient:</label>
-                    {{ form.ingredient }}
-                </div>
-                
-                <div class="form-group">
-                    <label for="id_difficulty">Difficulty:</label>
-                    {{ form.difficulty }}
-                </div>
-                
-                <div class="form-group">
-                    <label for="id_chart_type">Chart Type:</label>
-                    {{ form.chart_type }}
-                </div>
-                
-                <button type="submit" class="search-btn">Search</button>
-            </form>
+            <div class="form-group">
+                <label for="id_recipe_name">Recipe Name:</label>
+                {{ form.recipe_name }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_ingredient">Ingredient:</label>
+                {{ form.ingredient }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_difficulty">Difficulty:</label>
+                {{ form.difficulty }}
+            </div>
+            
+            <div class="form-group">
+                <label for="id_chart_type">Chart Type:</label>
+                {{ form.chart_type }}
+            </div>
+            
+        </form>
+        
+        <!-- Button Row -->
+        <div style="margin-top: 15px;">
+            <button type="submit" class="search-btn" form="searchForm">Search</button>
         </div>
+    </div>
         
         <!-- Search Results Section -->
         {% if recipes_df %}
