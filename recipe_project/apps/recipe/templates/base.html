@@ -301,11 +301,28 @@
             .nav-top {
                 flex-direction: column;
                 gap: 1rem;
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
             }
 
             .search-bar {
                 max-width: 100%;
                 margin: 0;
+                width: 100%;
+            }
+
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .auth-buttons button {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
             }
 
             .main-nav-container {
@@ -338,6 +355,36 @@
 
             .footer-nav {
                 justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-top {
+                padding: 0.75rem;
+            }
+            
+            .logo {
+                font-size: 1.3rem;
+            }
+            
+            .search-bar input[type="text"] {
+                padding: 0.6rem 2.5rem 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .search-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .auth-buttons button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+            
+            .nav-button {
+                padding: 0.8rem;
+                font-size: 0.85rem;
             }
         }
     </style>
