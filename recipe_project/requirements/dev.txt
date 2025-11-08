@@ -3,3 +3,7 @@
 # Development-only tools
 coverage==7.11.0
 ipython
+
+# AWS S3 for development (needed since 'storages' is in INSTALLED_APPS)
+boto3==1.35.71
+django-storages==1.14.4
