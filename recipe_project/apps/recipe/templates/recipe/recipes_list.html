@@ -12,7 +12,7 @@
     .recipes-container {
         background: white;
         border-radius: 10px;
-        padding: 30px;
+        padding: 5px;
         box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         max-width: 1400px;
         margin: 0 auto;
@@ -39,7 +39,7 @@
     
     h3 {
         color: #c0392b;
-        margin: 20px 0 10px 0;
+        margin: 5px 0 5px 0;
         font-size: 1.4em;
     }
     
@@ -47,14 +47,14 @@
         display: flex;
         justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
             border-bottom: 3px solid #e74c3c;
         }
         .logout-btn {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
-            padding: 12px 24px;
+            padding: 8px 16px;
             border: none;
             border-radius: 8px;
             text-decoration: none;
@@ -71,15 +71,15 @@
         /* Search Form Styles */
         .search-section {
             background: #f8f8f8;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            padding: 5px;
+            border-radius: 5px;
+            margin-bottom: 5px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         .search-form {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            grid-template-columns: 2fr 2fr 1fr 1fr;
+            gap: 5px;
             align-items: end;
         }
         .form-group {
@@ -87,13 +87,33 @@
             flex-direction: column;
         }
         .form-group label {
+            margin-bottom: 3px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9em;
+        }
+
+        .form-group-with-button {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group-with-button label {
             margin-bottom: 5px;
             font-weight: 600;
             color: #333;
             font-size: 0.9em;
         }
+        .input-button-wrapper {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .input-button-wrapper input {
+            flex: 1;
+        }
         .search-input, .chart-select, .difficulty-select {
-            padding: 12px;
+            padding: 5px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1em;
@@ -105,21 +125,21 @@
         }
         .search-btn-container {
             display: flex;
-            align-items: flex-end;
+            align-items: center;
+            justify-content: center;
         }
         .search-btn {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
-            padding: 8px 24px;
+            padding: 5px 10px;
             border: none;
-            border-radius: 6px;
+            border-radius: 5px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
-            width: auto;
-            min-width: 120px;
+            white-space: nowrap;
         }
         .search-btn:hover {
             transform: translateY(-2px);
@@ -128,11 +148,11 @@
         
         /* Results Styles */
         .results-section {
-            margin-top: 30px;
+            margin-top: 5px;
         }
         .table-wrapper {
             overflow-x: auto;
-            margin-bottom: 30px;
+            margin-bottom: 5px;
         }
         table { 
             width: 100%; 
@@ -141,7 +161,7 @@
         }
         th, td { 
             border: 1px solid #ddd; 
-            padding: 12px; 
+            padding: 5px; 
             text-align: left; 
         }
         th { 
@@ -157,7 +177,7 @@
         tr:hover {
             background-color: #e9ecef;
         }
-        img { 
+        img {
             border-radius: 6px; 
             object-fit: cover;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -177,88 +197,281 @@
         .chart-container {
             background: white;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 5px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             text-align: center;
         }
         .chart-container img {
             max-width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 5px;
         }
         
         /* No Data Message */
         .no-data {
             text-align: center;
-            padding: 40px;
+            padding: 10px;
             color: #666;
             font-size: 1.2em;
         }
         
         /* All Recipes Section */
         .all-recipes-section {
-            margin-top: 40px;
-            padding-top: 30px;
+            margin-top: 5px;
+            padding-top: 5px;
             border-top: 2px solid #eee;
         }
         
+        /* Table wrapper for mobile scroll */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0;
+            margin: 5px 0;
+        }
+        
+        table {
+            width: 100%;
+            min-width: 100%;
+        }
+        
         @media (max-width: 768px) {
+            /* Remove body padding for mobile */
+            body {
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            
+            /* Container adjustments */
+            .recipes-container {
+                padding: 5px;
+                margin: 0;
+                width: 100%;
+                max-width: 100%;
+                box-sizing: border-box;
+                overflow-x: hidden;
+                border-radius: 0;
+            }
+            
+            /* Page logo */
+            .page-logo {
+                font-size: 1.5em;
+                padding: 5px;
+                margin-bottom: 5px;
+            }
+            
+            /* Header bar */
+            .header-bar {
+                margin-bottom: 5px;
+                padding-bottom: 5px;
+                flex-direction: column;
+                gap: 5px;
+                align-items: stretch;
+            }
+            
+            .logout-btn {
+                width: 100%;
+                text-align: center;
+                padding: 8px;
+            }
+            
+            /* Search form mobile */
             .search-form {
                 grid-template-columns: 1fr;
+                gap: 5px;
             }
-            .recipes-container {
-                padding: 15px;
+            
+            .search-section {
+                padding: 5px;
+                margin-bottom: 5px;
+                margin-left: 0;
+                margin-right: 0;
+                border-radius: 5px;
             }
+            
+            /* Typography */
             h1 {
-                font-size: 1.8em;
+                font-size: 1.6em;
+                padding: 0 5px;
+                margin: 5px 0;
             }
             h2 {
-                font-size: 1.4em;
+                font-size: 1.3em;
+                padding: 0 5px;
+                margin: 5px 0 5px 0;
             }
             h3 {
-                font-size: 1.2em;
+                font-size: 1.1em;
+                padding: 0 5px;
+                margin: 5px 0;
             }
-            .header-bar {
-                flex-direction: column;
-                gap: 15px;
-                align-items: flex-start;
+            
+            /* All recipes section */
+            .all-recipes-section {
+                margin-top: 5px;
+                padding: 5px 0;
+                width: 100%;
+                overflow: visible;
             }
-            .search-section {
-                padding: 15px;
-            }
-            .table-wrapper {
+            
+            /* Table container for scrolling */
+            .table-container {
+                width: 100%;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
+                margin: 5px 0;
+                padding: 0;
             }
+            
+            /* Table */
             table {
+                width: 100%;
+                font-size: 0.85em;
+                min-width: 600px;
+                border-collapse: collapse;
+            }
+            
+            th, td {
+                padding: 5px;
                 font-size: 0.9em;
             }
-            th, td {
-                padding: 8px;
-                white-space: nowrap;
+            
+            /* Images in table */
+            td img {
+                max-width: 70px;
+                height: auto;
+            }
+            
+            /* Results section */
+            .results-section {
+                padding: 5px;
+                margin-bottom: 5px;
+            }
+            
+            .table-wrapper,
+            .chart-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                margin-bottom: 5px;
+            }
+            
+            .chart-container img {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            /* Buttons on mobile - keep inline */
+            .search-btn {
+                width: auto;
+                padding: 5px 10px;
+                font-size: 0.8rem;
+                flex-shrink: 0;
+            }
+            
+            .input-button-wrapper {
+                flex-direction: row;
+                gap: 5px;
+            }
+            
+            .input-button-wrapper input {
+                flex: 1;
+                min-width: 0;
             }
         }
         
         @media (max-width: 480px) {
+            /* Remove body padding for small mobile */
+            body {
+                padding: 0;
+                margin: 0;
+                width: 100%;
+                overflow-x: hidden;
+            }
+            
+            /* Extra small screens */
             .recipes-container {
-                padding: 10px;
+                padding: 5px;
+                width: 100%;
+                max-width: 100%;
+                border-radius: 0;
             }
-            h1 {
-                font-size: 1.5em;
+            
+            .page-logo {
+                font-size: 1.3em;
+                padding: 5px;
+                margin-bottom: 5px;
             }
+            
             .search-section {
-                padding: 10px;
+                padding: 5px;
+                margin-bottom: 5px;
+                border-radius: 5px;
             }
-            .search-btn {
-                padding: 8px 20px;
-                font-size: 0.9rem;
-                min-width: 100px;
+            
+            h1 {
+                font-size: 1.4em;
+                margin: 5px 0;
+                padding: 0 5px;
             }
+            h2 {
+                font-size: 1.2em;
+                margin: 5px 0;
+                padding: 0 5px;
+            }
+            h3 {
+                font-size: 1em;
+                margin: 5px 0;
+                padding: 0 5px;
+            }
+            
+            /* Table adjustments */
             table {
-                font-size: 0.8em;
+                font-size: 0.75em;
+                min-width: 500px;
             }
+            
             th, td {
-                padding: 6px;
+                padding: 2px;
+                font-size: 0.85em;
+            }
+            
+            /* Images smaller */
+            td img {
+                max-width: 50px;
+                height: auto;
+            }
+            
+            /* Form inputs */
+            .search-input, .chart-select, .difficulty-select {
+                font-size: 0.9em;
+                padding: 5px;
+            }
+            
+            /* Search button on small mobile */
+            .search-btn {
+                padding: 5px 8px;
+                font-size: 0.75rem;
+            }
+            
+            /* Labels */
+            .form-group label,
+            .form-group-with-button label {
+                font-size: 0.85em;
+            }
+            
+            /* Pagination */
+            .pagination ul {
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+            
+            .pagination li a,
+            .pagination li span {
+                padding: 5px;
+                font-size: 0.85em;
             }
         }
 </style>
@@ -322,39 +535,6 @@
 {% block content %}
 <div class="recipes-container">
     <div class="page-logo">🍳 Recipe App</div>
-    
-    <!-- Search Form Section -->
-    <div class="search-section">
-        <h2>Search for Recipes</h2>
-        <form action="" method="GET" class="search-form" id="searchForm">
-            
-            <div class="form-group">
-                <label for="id_recipe_name">Recipe Name:</label>
-                {{ form.recipe_name }}
-            </div>
-            
-            <div class="form-group">
-                <label for="id_ingredient">Ingredient:</label>
-                {{ form.ingredient }}
-            </div>
-            
-            <div class="form-group">
-                <label for="id_difficulty">Difficulty:</label>
-                {{ form.difficulty }}
-            </div>
-            
-            <div class="form-group">
-                <label for="id_chart_type">Chart Type:</label>
-                {{ form.chart_type }}
-            </div>
-            
-        </form>
-        
-        <!-- Button Row -->
-        <div style="margin-top: 15px;">
-            <button type="submit" class="search-btn" form="searchForm">Search</button>
-        </div>
-    </div>
         
         <!-- Search Results Section -->
         {% if recipes_df %}
@@ -381,9 +561,45 @@
         <!-- All Recipes Section -->
         <div class="all-recipes-section">
             <h2>📖 All Recipes</h2>
-            <table>
-                <tr>
-                    <th>Recipe Title</th>
+            
+            <!-- Search Form Section -->
+            <div class="search-section">
+                <h3>Search for Recipes</h3>
+                <form action="" method="GET" class="search-form" id="searchForm">
+                    
+                    <div class="form-group-with-button">
+                        <label for="id_recipe_name">Recipe Name:</label>
+                        <div class="input-button-wrapper">
+                            {{ form.recipe_name }}
+                            <button type="submit" class="search-btn">Search</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group-with-button">
+                        <label for="id_ingredient">Ingredient:</label>
+                        <div class="input-button-wrapper">
+                            {{ form.ingredient }}
+                            <button type="submit" class="search-btn">Search</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_difficulty">Difficulty:</label>
+                        {{ form.difficulty }}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="id_chart_type">Chart Type:</label>
+                        {{ form.chart_type }}
+                    </div>
+                    
+                </form>
+            </div>
+            
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Recipe Title</th>
                     <th>Difficulty</th>
                     <th>Cooking Time</th>
                     <th>Category</th>
@@ -410,7 +626,8 @@
                     <td colspan="5">No recipes available yet.</td>
                 </tr>
                 {% endfor %}
-            </table>
+                </table>
+            </div>
         </div>
         
         <!-- Pagination Controls -->
