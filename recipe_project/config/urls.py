@@ -14,6 +14,8 @@ urlpatterns = [
     # Security and SEO files
     path('robots.txt', RedirectView.as_view(url=settings.STATIC_URL + 'robots.txt', permanent=True)),
     path('.well-known/security.txt', RedirectView.as_view(url=settings.STATIC_URL + '.well-known/security.txt', permanent=True)),
+    # Google Search Console verification
+    path('googlea962b821893d70d8.html', RedirectView.as_view(url=settings.STATIC_URL + 'googlea962b821893d70d8.html', permanent=True)),
 ]
 
 # Serve media files in both development and production
