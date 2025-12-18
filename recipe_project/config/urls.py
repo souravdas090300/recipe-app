@@ -2,8 +2,10 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic import RedirectView
-from .views import login_view, logout_view, signup_view
+from .views import (
+    login_view, logout_view, signup_view,
+    serve_robots_txt, serve_security_txt, serve_google_verification
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,11 +13,11 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('signup/', signup_view, name='signup'),
-    # Security and SEO files
-    path('robots.txt', RedirectView.as_view(url=settings.STATIC_URL + 'robots.txt', permanent=True)),
-    path('.well-known/security.txt', RedirectView.as_view(url=settings.STATIC_URL + '.well-known/security.txt', permanent=True)),
+    # Security and SEO files - served directly
+    path('robots.txt', serve_robots_txt, name='robots'),
+    path('.well-known/security.txt', serve_security_txt, name='security'),
     # Google Search Console verification
-    path('googlea962b821893d70d8.html', RedirectView.as_view(url=settings.STATIC_URL + 'googlea962b821893d70d8.html', permanent=True)),
+    path('googlea962b821893d70d8.html', serve_google_verification, name='google-verification'),
 ]
 
 # Serve media files in both development and production

@@ -22,7 +22,10 @@ from django.contrib.auth import authenticate, login, logout
 # Django built-in forms for authentication (login) and registration (signup)
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 # Django User model (not directly used but imported for reference)
-from django.contrib.auth.models import User    
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.conf import settings
+import os    
 
 
 def login_view(request):
@@ -224,3 +227,42 @@ def signup_view(request):
     # Render the signup template with context data
     # Returns HTML response with registration form
     return render(request, 'auth/signup.html', context)
+
+
+def serve_robots_txt(request):
+    """
+    Serve robots.txt file for search engine crawlers.
+    """
+    file_path = os.path.join(settings.BASE_DIR, 'static', 'robots.txt')
+    try:
+        with open(file_path, 'r') as f:
+            content = f.read()
+        return HttpResponse(content, content_type='text/plain')
+    except FileNotFoundError:
+        return HttpResponse('User-agent: *\nDisallow:', content_type='text/plain')
+
+
+def serve_security_txt(request):
+    """
+    Serve security.txt file for security researchers.
+    """
+    file_path = os.path.join(settings.BASE_DIR, 'static', '.well-known', 'security.txt')
+    try:
+        with open(file_path, 'r') as f:
+            content = f.read()
+        return HttpResponse(content, content_type='text/plain')
+    except FileNotFoundError:
+        return HttpResponse('Contact: https://github.com/souravdas090300/recipe-app/issues', content_type='text/plain')
+
+
+def serve_google_verification(request):
+    """
+    Serve Google Search Console verification file.
+    """
+    file_path = os.path.join(settings.BASE_DIR, 'static', 'googlea962b821893d70d8.html')
+    try:
+        with open(file_path, 'r') as f:
+            content = f.read()
+        return HttpResponse(content, content_type='text/html')
+    except FileNotFoundError:
+        return HttpResponse('google-site-verification: googlea962b821893d70d8.html', content_type='text/html')
