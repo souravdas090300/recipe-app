@@ -52,7 +52,7 @@ A comprehensive recipe management and discovery platform built with Django, feat
 ## 🛠️ Technologies Used
 
 ### Backend
-- **Python**: 3.14.0
+- **Python**: 3.12.8
 - **Django**: 5.2.7
 - **Database**: 
   - SQLite3 (development)
@@ -447,6 +447,38 @@ web: gunicorn config.wsgi --log-file -
 **Issue: 403 CSRF Verification Failed**
 - Ensure DJANGO_CSRF_TRUSTED_ORIGINS is set
 - Use HTTPS URL (not HTTP)
+
+### 📚 Production Documentation
+
+For comprehensive production deployment guides and tools, see:
+
+- **[DEPLOYMENT.md](recipe_project/DEPLOYMENT.md)** - Complete deployment guide with step-by-step instructions for Heroku, AWS S3 setup, database management, monitoring, and troubleshooting
+- **[PRODUCTION_CHECKLIST.md](recipe_project/PRODUCTION_CHECKLIST.md)** - Pre-deployment checklist covering configuration, security, testing, and post-deployment verification
+- **[SECURITY.md](recipe_project/SECURITY.md)** - Security best practices, current security posture review, recommended improvements, and incident response procedures
+- **[.env.example](recipe_project/.env.example)** - Environment variables template with detailed descriptions and quick reference commands
+
+#### Quick Setup Scripts
+
+- **Windows**: Run `recipe_project\setup_heroku.ps1` to interactively configure Heroku
+- **Linux/Mac**: Run `recipe_project/setup_heroku.sh` to interactively configure Heroku
+- **Configuration Check**: Run `python recipe_project/check_production.py` to verify your production setup
+
+#### Quick Deployment Commands
+
+```bash
+# Configure environment (interactive)
+cd recipe_project
+./setup_heroku.sh  # or setup_heroku.ps1 on Windows
+
+# Deploy
+git push heroku main
+
+# Run migrations
+heroku run python manage.py migrate --settings=config.settings.prod
+
+# Create superuser
+heroku run python manage.py createsuperuser --settings=config.settings.prod
+```
 
 **Issue: Static Files Not Loading**
 - Verify whitenoise is installed
