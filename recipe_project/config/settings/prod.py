@@ -1,6 +1,8 @@
 from .base import *
 
 # Add WhiteNoise middleware for production static file serving
+# Create a copy of MIDDLEWARE and insert WhiteNoise
+MIDDLEWARE = MIDDLEWARE.copy()
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 # WhiteNoise configuration for static files only
