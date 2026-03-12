@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: recipe-app
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: bash build.sh
+    startCommand: cd recipe_project && gunicorn config.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DJANGO_SETTINGS_MODULE
+        value: config.settings.prod
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_SECURE_SSL_REDIRECT
+        value: true
+      - key: DJANGO_SESSION_COOKIE_SECURE
+        value: true
+      - key: DJANGO_CSRF_COOKIE_SECURE
+        value: true
+
+databases:
+  - name: recipe-db
+    databaseName: recipe_db
+    user: recipe_user
