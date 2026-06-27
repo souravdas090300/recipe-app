@@ -1,90 +1,102 @@
-from .base import *
+"""
+Production settings for Railway deployment.
+Reads all sensitive config from environment variables.
+"""
 
-# Add WhiteNoise middleware for production static file serving
-# Create a copy of MIDDLEWARE and insert WhiteNoise
-MIDDLEWARE = MIDDLEWARE.copy()
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+from .base import *  # noqa
+import os
+import dj_database_url
 
-# WhiteNoise configuration for static files only
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# ─── Core ────────────────────────────────────────────────────────────────────
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# In real production, use environment variable and DO NOT hardcode secrets.
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'change-this-in-production')
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# Replace with your actual domain(s) or server IP(s)
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '*').split(',')
+SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-# For real production, consider PostgreSQL/MySQL. SQLite kept for simplicity.
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+
+# Also allow the Railway-generated domain automatically
+RAILWAY_STATIC_URL = os.environ.get("RAILWAY_STATIC_URL", "")
+if RAILWAY_STATIC_URL:
+    ALLOWED_HOSTS.append(RAILWAY_STATIC_URL)
+
+# ─── Database ────────────────────────────────────────────────────────────────
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": dj_database_url.config(
+        env="DATABASE_URL",
+        conn_max_age=600,
+        ssl_require=True,
+    )
 }
 
+# ─── Static Files (WhiteNoise) ────────────────────────────────────────────────
 
-# Heroku: Update database configuration from $DATABASE_URL.
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # immediately after SecurityMiddleware
+    *[m for m in MIDDLEWARE if m != "django.middleware.security.SecurityMiddleware"],
+]
 
-# Security settings for production
-SECURE_SSL_REDIRECT = os.environ.get('DJANGO_SECURE_SSL_REDIRECT', 'false').lower() == 'true'
-SESSION_COOKIE_SECURE = os.environ.get('DJANGO_SESSION_COOKIE_SECURE', 'false').lower() == 'true'
-CSRF_COOKIE_SECURE = os.environ.get('DJANGO_CSRF_COOKIE_SECURE', 'false').lower() == 'true'
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Additional security headers
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+# ─── Media Files (AWS S3) ─────────────────────────────────────────────────────
 
-# CSRF Trusted Origins for Heroku
-CSRF_TRUSTED_ORIGINS = os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS') else []
-
-# AWS S3 Configuration for Media Files
-# Get these from environment variables (set in Heroku Config Vars)
-USE_S3 = os.environ.get('USE_S3', 'False').lower() == 'true'
+USE_S3 = os.environ.get("USE_S3", "false").lower() == "true"
 
 if USE_S3:
-    # AWS Settings
-    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'eu-central-1')
-    
-    # S3 Settings - Use regional endpoint
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
-    
-    AWS_S3_OBJECT_PARAMETERS = {
-        'CacheControl': 'max-age=86400',
-    }
-    AWS_DEFAULT_ACL = None  # Disable ACLs (modern S3 buckets use bucket policies instead)
-    AWS_QUERYSTRING_AUTH = False
-    AWS_S3_FILE_OVERWRITE = False
-    
-    # Media files configuration - Use custom storage backend
-    # Django 4.2+ uses STORAGES setting instead of DEFAULT_FILE_STORAGE
-    STORAGES = {
-        'default': {
-            'BACKEND': 'config.storage_backends.MediaStorage',
-        },
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-        },
-    }
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+    AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
+    AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
+    AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
+    AWS_S3_REGION_NAME = os.environ.get("AWS_S3_REGION_NAME", "us-east-1")
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    AWS_DEFAULT_ACL = "public-read"
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 else:
-    # Fallback to local storage (for testing)
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = BASE_DIR / 'media'
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = BASE_DIR / "media"
+
+# ─── Security ─────────────────────────────────────────────────────────────────
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", "true").lower() == "true"
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",")
+    if origin.strip()
+]
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": os.environ.get("DJANGO_LOG_LEVEL", "WARNING"),
+            "propagate": False,
+        },
+    },
+}
