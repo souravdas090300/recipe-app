@@ -40,6 +40,9 @@ MIDDLEWARE = [
 
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # ─── Media Files (AWS S3) ─────────────────────────────────────────────────────
