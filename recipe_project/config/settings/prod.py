@@ -2,26 +2,20 @@
 Production settings for Railway deployment.
 Reads all sensitive config from environment variables.
 """
-
 from .base import *  # noqa
 import os
 import dj_database_url
 
 # ─── Core ────────────────────────────────────────────────────────────────────
-
 DEBUG = False
-
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
-
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
-# Also allow the Railway-generated domain automatically
 RAILWAY_STATIC_URL = os.environ.get("RAILWAY_STATIC_URL", "")
 if RAILWAY_STATIC_URL:
     ALLOWED_HOSTS.append(RAILWAY_STATIC_URL)
 
 # ─── Database ────────────────────────────────────────────────────────────────
-
 DATABASES = {
     "default": dj_database_url.config(
         env="DATABASE_URL",
@@ -30,11 +24,10 @@ DATABASES = {
     )
 }
 
-# ─── Static Files (WhiteNoise) ────────────────────────────────────────────────
-
+# ─── Static Files (WhiteNoise) ───────────────────────────────────────────────
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",  # immediately after SecurityMiddleware
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     *[m for m in MIDDLEWARE if m != "django.middleware.security.SecurityMiddleware"],
 ]
 
@@ -43,10 +36,9 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# ─── Media Files (AWS S3) ─────────────────────────────────────────────────────
-
+# ─── Media Files (AWS S3) ────────────────────────────────────────────────────
 USE_S3 = os.environ.get("USE_S3", "false").lower() == "true"
 
 if USE_S3:
@@ -57,15 +49,13 @@ if USE_S3:
     AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
     AWS_DEFAULT_ACL = "public-read"
     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 else:
     MEDIA_URL = "/media/"
     MEDIA_ROOT = BASE_DIR / "media"
 
-# ─── Security ─────────────────────────────────────────────────────────────────
-
+# ─── Security ────────────────────────────────────────────────────────────────
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SECURE_SSL_REDIRECT = os.environ.get("DJANGO_SECURE_SSL_REDIRECT", "true").lower() == "true"
 SESSION_COOKIE_SECURE = True
@@ -81,8 +71,7 @@ CSRF_TRUSTED_ORIGINS = [
     if origin.strip()
 ]
 
-# ─── Logging ──────────────────────────────────────────────────────────────────
-
+# ─── Logging ─────────────────────────────────────────────────────────────────
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
