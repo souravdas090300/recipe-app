@@ -27,7 +27,6 @@ DATABASES = {
 # ─── Static Files (WhiteNoise) ───────────────────────────────────────────────
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -41,7 +40,6 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATICFILES_STORAGE = "whitenoise.storage.StaticFilesStorage"
 
 # ─── Media Files (AWS S3) ────────────────────────────────────────────────────
 USE_S3 = os.environ.get("USE_S3", "false").lower() == "true"
