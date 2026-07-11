@@ -2,8 +2,8 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 120"
-releaseCommand = "cd recipe_project && python manage.py migrate && python manage.py collectstatic --noinput --verbosity 2"
+startCommand = "cd recipe_project && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 120"
+releaseCommand = "cd recipe_project && python manage.py migrate --noinput && python manage.py collectstatic --noinput --clear"
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
