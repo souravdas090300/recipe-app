@@ -86,6 +86,3 @@ dmypy.json
 
 # Text backup files
 *.bak
-
-# Static files (collected)
-staticfiles/
