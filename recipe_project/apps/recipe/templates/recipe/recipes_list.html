@@ -159,23 +159,32 @@
             border-collapse: collapse;
             background: white;
         }
-        th, td { 
-            border: 1px solid #ddd; 
-            padding: 5px; 
-            text-align: left; 
+        th, td {
+            border: 1px solid #ddd;
+            padding: 5px;
+            text-align: left;
         }
-        th { 
+        th {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
             color: white;
             font-weight: 600;
             text-transform: uppercase;
             font-size: 0.9em;
         }
+        td {
+            color: #333;
+        }
         tr:nth-child(even) {
             background-color: #f8f9fa;
         }
+        tr:nth-child(even) td {
+            color: #333;
+        }
         tr:hover {
             background-color: #e9ecef;
+        }
+        tr:hover td {
+            color: #333;
         }
         img {
             border-radius: 6px; 
