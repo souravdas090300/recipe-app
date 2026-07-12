@@ -44,7 +44,7 @@
     }
     
     #user-tools a {
-        color: white !important;
+        color: #8b0000 !important;
         font-weight: 600 !important;
         padding: 8px 15px !important;
         border-radius: 6px !important;
@@ -54,15 +54,16 @@
         margin-left: 8px !important;
         background: rgba(255, 182, 193, 0.3) !important; /* Light pink background */
     }
-    
+
     #user-tools a:hover {
         background: rgba(255, 182, 193, 0.5) !important; /* Darker pink on hover */
+        color: #6b0000 !important;
     }
     
-    /* Home button - light pink background with white text */
+    /* Home button - light pink background with dark text */
     .home-button {
         background: rgba(255, 182, 193, 0.3) !important; /* Light pink background */
-        color: white !important;
+        color: #8b0000 !important;
         padding: 10px 20px !important;
         border-radius: 6px !important;
         text-decoration: none !important;
@@ -73,10 +74,10 @@
         border: none !important;
         vertical-align: middle !important;
     }
-    
+
     .home-button:hover {
         background: rgba(255, 182, 193, 0.5) !important; /* Darker pink on hover */
-        color: white !important;
+        color: #6b0000 !important;
         transform: translateY(-2px) !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.2) !important;
     }
@@ -85,14 +86,15 @@
         padding: 15px 20px !important;
         border-bottom: 2px solid #e0e0e0 !important;
         font-size: 0.9rem !important;
+        color: #333 !important; /* Darker text for better readability */
     }
-    
+
     .breadcrumbs a {
         color: #e74c3c !important;
         text-decoration: none !important;
         font-weight: 600 !important;
     }
-    
+
     .breadcrumbs a:hover {
         color: #c0392b !important;
         text-decoration: underline !important;
@@ -102,6 +104,7 @@
     #content {
         padding: 30px !important;
         background: #f8f8f8 !important;
+        color: #333 !important; /* Darker text for better readability */
     }
     
     /* Module headers */
@@ -120,21 +123,28 @@
         border-radius: 8px !important;
         overflow: hidden !important;
         box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
+        color: #333 !important; /* Darker text for better readability */
     }
-    
+
     #content table thead th {
         background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
         color: white !important;
         padding: 12px !important;
         font-weight: 600 !important;
     }
-    
+
     #content table tbody tr:nth-child(even) {
         background: #f8f9fa !important;
+        color: #333 !important; /* Darker text for better readability */
     }
-    
+
     #content table tbody tr:hover {
         background: #e9ecef !important;
+        color: #333 !important; /* Darker text for better readability */
+    }
+
+    #content table td {
+        color: #333 !important; /* Darker text for better readability */
     }
     
     /* Buttons */
@@ -179,27 +189,36 @@
         box-shadow: 0 2px 10px rgba(0,0,0,0.05) !important;
         margin-bottom: 20px !important;
         overflow: hidden !important;
+        color: #333 !important; /* Darker text for better readability */
     }
     
     /* Forms */
     .form-row {
         padding: 15px !important;
         border-bottom: 1px solid #f0f0f0 !important;
+        color: #333 !important; /* Darker text for better readability */
     }
-    
-    input[type=text], input[type=password], input[type=email], input[type=url], 
+
+    .form-row label {
+        color: #333 !important; /* Darker text for better readability */
+        font-weight: 600 !important;
+    }
+
+    input[type=text], input[type=password], input[type=email], input[type=url],
     input[type=number], textarea, select {
         border: 2px solid #e0e0e0 !important;
         border-radius: 6px !important;
         padding: 10px !important;
         transition: border-color 0.3s ease !important;
+        color: #333 !important; /* Darker text for better readability */
     }
-    
-    input[type=text]:focus, input[type=password]:focus, input[type=email]:focus, 
+
+    input[type=text]:focus, input[type=password]:focus, input[type=email]:focus,
     input[type=url]:focus, input[type=number]:focus, textarea:focus, select:focus {
         border-color: #e74c3c !important;
         outline: none !important;
         box-shadow: 0 0 0 3px rgba(231,76,60,0.1) !important;
+        color: #333 !important; /* Darker text for better readability */
     }
     
     /* Delete button */
@@ -217,30 +236,41 @@
         padding: 0 !important;
         margin: 0 0 20px 0 !important;
     }
-    
+
     .messagelist li {
         padding: 15px 20px !important;
         border-radius: 8px !important;
         margin-bottom: 10px !important;
         font-weight: 600 !important;
     }
-    
+
     .messagelist .success {
         background: #d4edda !important;
         color: #155724 !important;
         border: 1px solid #c3e6cb !important;
     }
-    
+
     .messagelist .warning {
         background: #fff3cd !important;
         color: #856404 !important;
         border: 1px solid #ffeaa7 !important;
     }
-    
+
     .messagelist .error {
         background: #f8d7da !important;
         color: #721c24 !important;
         border: 1px solid #f5c6cb !important;
+    }
+
+    /* Help text and field descriptions */
+    .help, .helptext {
+        color: #666 !important; /* Darker text for better readability */
+        font-size: 0.9rem !important;
+    }
+
+    /* Field descriptions */
+    .form-row .help-text {
+        color: #666 !important; /* Darker text for better readability */
     }
     
     /* App labels (Authentication and Authorization, Recipe) - WHITE TEXT */
