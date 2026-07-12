@@ -54,7 +54,7 @@ if USE_S3:
     AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
     AWS_DEFAULT_ACL = "public-read"
     AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    DEFAULT_FILE_STORAGE = "config.storage_backends.MediaStorage"
     MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
 else:
     MEDIA_URL = "/media/"
@@ -93,6 +93,22 @@ LOGGING = {
         "django": {
             "handlers": ["console"],
             "level": os.environ.get("DJANGO_LOG_LEVEL", "WARNING"),
+            "propagate": False,
+        },
+        # Add S3/boto3 logging for debugging
+        "boto3": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "botocore": {
+            "handlers": ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "storages": {
+            "handlers": ["console"],
+            "level": "INFO",
             "propagate": False,
         },
     },
