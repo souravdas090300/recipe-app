@@ -5,7 +5,7 @@
 
 {% block branding %}
 <h1 id="site-name">
-    <a href="{% url 'admin:index' %}" style="color: #e74c3c; text-decoration: none; font-size: 1.8rem;">
+    <a href="{% url 'admin:index' %}" style="color: white; text-decoration: none; font-size: 1.8rem;">
         🍳 Recipe App Admin
     </a>
 </h1>
@@ -225,10 +225,12 @@
     .deletelink, .deletelink-box a {
         background: #dc3545 !important;
         color: white !important;
+        font-weight: 600 !important;
     }
-    
+
     .deletelink:hover, .deletelink-box a:hover {
         background: #c82333 !important;
+        color: white !important;
     }
     
     /* Messages */
