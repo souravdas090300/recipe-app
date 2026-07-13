@@ -461,7 +461,6 @@ For comprehensive production deployment guides and tools, see:
 
 - **Windows**: Run `recipe_project\setup_heroku.ps1` to interactively configure Heroku
 - **Linux/Mac**: Run `recipe_project/setup_heroku.sh` to interactively configure Heroku
-- **Configuration Check**: Run `python recipe_project/check_production.py` to verify your production setup
 
 #### Quick Deployment Commands
 
@@ -552,14 +551,7 @@ heroku config:set USE_S3=true \
 - S3 uses a regional endpoint: `https://<bucket>.s3.<region>.amazonaws.com/media/`.
 - ACLs are disabled (`AWS_DEFAULT_ACL = None`). Use bucket policy for public read.
 
-5) Verify S3 connectivity (optional)
-- A helper script `recipe_project/test_s3.py` can be run on Heroku:
-```bash
-heroku run "python test_s3.py" --app your-unique-app-name
-```
-- Remove the script after verification in production environments.
-
-6) Common S3 errors
+5) Common S3 errors
 - `AccessControlListNotSupported`: Remove ACLs; set `AWS_DEFAULT_ACL = None` and rely on bucket policy.
 - `403 Forbidden` on HeadObject/PutObject: Check IAM permissions, bucket policy, or region mismatch.
 - Wrong URLs or 404: Ensure regional endpoint and `MEDIA_URL` are correct.
