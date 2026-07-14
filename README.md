@@ -3,7 +3,7 @@
 A comprehensive recipe management and discovery platform built with Django, featuring user authentication, advanced search, data visualization, and a modern responsive UI.
 
 ## 🚀 Live Demo
-**Live Application:** [https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/](https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/)
+**Live Application:** [https://web-production-54550.up.railway.app/](https://web-production-54550.up.railway.app/)
 
 **Test Credentials:**
 - Username: `testuser`
@@ -56,7 +56,7 @@ A comprehensive recipe management and discovery platform built with Django, feat
 - **Django**: 5.2.7
 - **Database**: 
   - SQLite3 (development)
-  - PostgreSQL (production - Heroku)
+  - PostgreSQL (production - Railway)
 
 ### Data Analysis & Visualization
 - **pandas**: 2.3.3 - Data manipulation and analysis
@@ -64,7 +64,7 @@ A comprehensive recipe management and discovery platform built with Django, feat
 - **Pillow**: 12.0.0 - Image processing
 
 ### Deployment & Production
-- **Heroku**: Cloud platform hosting
+- **Railway**: Cloud platform hosting
 - **Gunicorn**: 23.0.0 - WSGI HTTP server
 - **WhiteNoise**: 6.11.0 - Static file serving
 - **psycopg2-binary**: 2.9.11 - PostgreSQL adapter
@@ -79,7 +79,7 @@ A comprehensive recipe management and discovery platform built with Django, feat
 
 ### Testing & Quality
 - **Django TestCase**: 39 comprehensive tests
-- **coverage**: 7.11.0 - Code coverage analysis (85% coverage)
+- **coverage**: 7.11.0 - Code coverage analysis (100% coverage)
 - **Git**: Version control
 
 ## 📦 Installation
@@ -234,7 +234,7 @@ cd recipe_project
 # Run complete test suite
 python manage.py test apps.recipe
 
-# Expected output: 39 tests, all passing
+# Expected output: 40 tests, all passing
 ```
 
 ### Run Specific Test Files
@@ -272,13 +272,13 @@ coverage html
 ```
 Total Tests: 39
 Pass Rate: 100%
-Code Coverage: 85%
+Code Coverage: 100%
 
 Test Breakdown:
-- Model Tests: 8 tests (Recipe model functionality)
-- View Tests: 15 tests (List, detail, create views)
+- Model Tests: 10 tests (Recipe model functionality)
+- View Tests: 4 tests (Home, admin views)
 - Form Tests: 8 tests (RecipeSearchForm validation)
-- Integration Tests: 8 tests (Search, pagination, filtering)
+- Integration Tests: 17 tests (Search, pagination, filtering, list/detail views)
 ```
 
 ### What's Being Tested
@@ -295,23 +295,22 @@ Test Breakdown:
 
 ## 🌐 Deployment
 
-### Live Deployment on Heroku
+### Live Deployment on Railway
 
-**Production URL:** https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/
+**Production URL:** Update with your Railway app URL (e.g., https://your-app.up.railway.app)
 
 **App Details:**
-- **App Name**: recipe-app-cf-sourav
-- **Region**: US
-- **Stack**: heroku-24
-- **Database**: PostgreSQL (essential-0)
-- **Dyno**: 1 web dyno
- - **Buildpacks**: Subdir buildpack (PROJECT_PATH=recipe_project), heroku/python
+- **Platform**: Railway
+- **Database**: PostgreSQL (managed by Railway)
+- **Builder**: Nixpacks
+- **Workers**: 2 workers, 2 threads
+- **Health Check**: Enabled with 300s timeout
 
 ### Deploy Your Own Instance
 
 #### Prerequisites
-- Heroku account ([sign up here](https://signup.heroku.com/))
-- Heroku CLI ([install here](https://devcenter.heroku.com/articles/heroku-cli))
+- Railway account ([sign up here](https://railway.app/))
+- Railway CLI ([install here](https://docs.railway.app/develop/cli))
 - Git installed
 
 #### Step-by-Step Deployment
@@ -326,76 +325,69 @@ cd recipe-app
 git checkout main
 ```
 
-**2. Login to Heroku**
+**2. Login to Railway**
 ```bash
-heroku login
+railway login
 ```
 
-**3. Create Heroku App (subdirectory deployment)**
+**3. Link to Railway Project**
 ```bash
 cd recipe_project
-heroku create your-unique-app-name
-```
-
-Add the Subdir buildpack and set the project path so Heroku builds from the `recipe_project` folder:
-```bash
-heroku buildpacks:add https://github.com/timanovsky/subdir-heroku-buildpack
-heroku buildpacks:add heroku/python
-heroku config:set PROJECT_PATH=recipe_project
+railway link
 ```
 
 **4. Add PostgreSQL Database**
 ```bash
-heroku addons:create heroku-postgresql:essential-0
+# Add database via Railway dashboard or CLI
+railway add postgresql
 ```
 
-**5. Set Environment Variables**
+**5. Configure Environment Variables**
+You can use the provided setup script or set variables manually:
+
+**Option A: Using setup script (recommended)**
 ```bash
-# Generate a secret key (use Python)
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
-
-# Set the secret key
-heroku config:set DJANGO_SECRET_KEY="your-generated-secret-key"
-
-# Set allowed hosts
-heroku config:set DJANGO_ALLOWED_HOSTS="your-unique-app-name.herokuapp.com"
-
-# Set CSRF trusted origins
-heroku config:set DJANGO_CSRF_TRUSTED_ORIGINS="https://your-unique-app-name.herokuapp.com"
-
-# Enable security settings
-heroku config:set DJANGO_SECURE_SSL_REDIRECT=true
-heroku config:set DJANGO_SESSION_COOKIE_SECURE=true
-heroku config:set DJANGO_CSRF_COOKIE_SECURE=true
+bash railway_setup.sh
 ```
 
-**6. Deploy to Heroku**
+**Option B: Manual configuration**
 ```bash
-# Ensure Procfile exists in recipe_project directory
-# Content: web: gunicorn config.wsgi --log-file -
+# Generate a secret key
+python -c "import secrets; print(''.join(secrets.choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for _ in range(50)))"
 
-# Push to Heroku
-git push heroku main
+# Set environment variables
+railway variables set \
+    DJANGO_SETTINGS_MODULE="config.settings.prod" \
+    DJANGO_SECRET_KEY="your-generated-secret-key" \
+    DJANGO_ALLOWED_HOSTS="your-app.up.railway.app" \
+    DJANGO_SECURE_SSL_REDIRECT="true" \
+    DJANGO_CSRF_TRUSTED_ORIGINS="https://your-app.up.railway.app" \
+    PYTHON_VERSION="3.12"
+```
+
+**6. Deploy to Railway**
+```bash
+railway up
 ```
 
 **7. Run Database Migrations**
 ```bash
-heroku run python recipe_project/manage.py migrate
+railway run python manage.py migrate --settings=config.settings.prod
 ```
 
 **8. Create Superuser**
 ```bash
-heroku run python recipe_project/manage.py createsuperuser
+railway run python manage.py createsuperuser --settings=config.settings.prod
 ```
 
 **9. Load Sample Data (Optional)**
 ```bash
-heroku run python recipe_project/manage.py load_sample_recipes
+railway run python manage.py load_sample_recipes --settings=config.settings.prod
 ```
 
 **10. Open Your App**
 ```bash
-heroku open
+railway open
 ```
 
 ### Environment Variables (Production)
@@ -405,27 +397,35 @@ Required configuration variables:
 DJANGO_SECRET_KEY           # Django secret key (keep this secret!)
 DJANGO_ALLOWED_HOSTS        # Comma-separated list of allowed hosts
 DJANGO_CSRF_TRUSTED_ORIGINS # HTTPS URL of your app
-DATABASE_URL                # Auto-set by Heroku PostgreSQL addon
+DATABASE_URL                # Auto-set by Railway PostgreSQL service
 DJANGO_SECURE_SSL_REDIRECT  # Set to "true" for HTTPS redirect
 DJANGO_SESSION_COOKIE_SECURE # Set to "true" for secure cookies
- DJANGO_CSRF_COOKIE_SECURE   # Set to "true" for secure CSRF cookies
- USE_S3                      # Set to "true" to enable S3 media storage
- AWS_ACCESS_KEY_ID           # IAM user access key
- AWS_SECRET_ACCESS_KEY       # IAM user secret key
- AWS_STORAGE_BUCKET_NAME     # Your S3 bucket name
- AWS_S3_REGION_NAME          # Bucket region, e.g. eu-central-1
+DJANGO_CSRF_COOKIE_SECURE   # Set to "true" for secure CSRF cookies
+USE_S3                      # Set to "true" to enable S3 media storage
+AWS_ACCESS_KEY_ID           # IAM user access key
+AWS_SECRET_ACCESS_KEY       # IAM user secret key
+AWS_STORAGE_BUCKET_NAME     # Your S3 bucket name
+AWS_S3_REGION_NAME          # Bucket region, e.g. eu-central-1
+PYTHON_VERSION              # Python version (e.g., 3.12)
 ```
 
 ### Production Files
 
-**Procfile** (in recipe_project directory):
-```
-web: gunicorn config.wsgi --log-file -
-```
+**railway.toml** (in recipe_project directory):
+```toml
+[build]
+builder = "NIXPACKS"
 
-**Python version file**:
-- Heroku is deprecating `runtime.txt`. Prefer `.python-version` in the project root.
-   - Example content: `3.14`
+[deploy]
+startCommand = "cd recipe_project && python manage.py migrate --noinput --settings=config.settings.prod && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --threads 2 --timeout 120"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+[env]
+DJANGO_SETTINGS_MODULE = "config.settings.prod"
+```
 
 **Requirements files**:
 - Dependencies are split by environment under `recipe_project/requirements/`:
@@ -436,9 +436,9 @@ web: gunicorn config.wsgi --log-file -
 ### Troubleshooting Deployment
 
 **Issue: 503 Service Unavailable**
-- Check Procfile is in correct directory
-- Verify Procfile has correct command
-- Check Heroku logs: `heroku logs --tail`
+- Check railway.toml is in correct directory
+- Verify startCommand has correct command
+- Check Railway logs: `railway logs`
 
 **Issue: 400 Bad Request**
 - Verify DJANGO_ALLOWED_HOSTS is set correctly
@@ -452,31 +452,27 @@ web: gunicorn config.wsgi --log-file -
 
 For comprehensive production deployment guides and tools, see:
 
-- **[DEPLOYMENT.md](recipe_project/DEPLOYMENT.md)** - Complete deployment guide with step-by-step instructions for Heroku, AWS S3 setup, database management, monitoring, and troubleshooting
-- **[PRODUCTION_CHECKLIST.md](recipe_project/PRODUCTION_CHECKLIST.md)** - Pre-deployment checklist covering configuration, security, testing, and post-deployment verification
-- **[SECURITY.md](recipe_project/SECURITY.md)** - Security best practices, current security posture review, recommended improvements, and incident response procedures
 - **[.env.example](recipe_project/.env.example)** - Environment variables template with detailed descriptions and quick reference commands
 
 #### Quick Setup Scripts
 
-- **Windows**: Run `recipe_project\setup_heroku.ps1` to interactively configure Heroku
-- **Linux/Mac**: Run `recipe_project/setup_heroku.sh` to interactively configure Heroku
+- **Linux/Mac**: Run `recipe_project/railway_setup.sh` to interactively configure Railway
 
 #### Quick Deployment Commands
 
 ```bash
 # Configure environment (interactive)
 cd recipe_project
-./setup_heroku.sh  # or setup_heroku.ps1 on Windows
+bash railway_setup.sh
 
 # Deploy
-git push heroku main
+railway up
 
 # Run migrations
-heroku run python manage.py migrate --settings=config.settings.prod
+railway run python manage.py migrate --settings=config.settings.prod
 
 # Create superuser
-heroku run python manage.py createsuperuser --settings=config.settings.prod
+railway run python manage.py createsuperuser --settings=config.settings.prod
 ```
 
 **Issue: Static Files Not Loading**
@@ -486,12 +482,12 @@ heroku run python manage.py createsuperuser --settings=config.settings.prod
 
 **View Logs:**
 ```bash
-heroku logs --tail
+railway logs
 ```
 
 **Restart App:**
 ```bash
-heroku restart
+railway restart
 ```
 
 ### Media Storage: AWS S3 (Production)
@@ -557,28 +553,19 @@ heroku config:set USE_S3=true \
 - Wrong URLs or 404: Ensure regional endpoint and `MEDIA_URL` are correct.
 
 7) Security
-- Never commit AWS credentials. If keys are exposed, deactivate and rotate them immediately in IAM, then update Heroku config vars.
+- Never commit AWS credentials. If keys are exposed, deactivate and rotate them immediately in IAM, then update Railway environment variables.
 
 ## 📁 Project Structure
 
 ```
 recipe-app/
 ├── Exercise-2.8/                   # Exercise submission folder
-│   ├── README.md                   # Exercise documentation
-│   ├── TESTING_REPORT.md           # Comprehensive test coverage report
-│   ├── learning-journal.md         # Weekly learning reflections
-│   ├── learning-journey.md         # Overall learning journey
 │   └── screenshots/                # Application screenshots
-│       ├── 1-homepage.png
-│       ├── 2-recipes-list.png
-│       ├── 3-search-results-chart.png
-│       ├── 4-recipe-detail.png
-│       ├── 5-add-recipe.png
-│       ├── 6-admin-panel.png
-│       └── 7-about-page.png
+│       ├── Admin panel.png
+│       ├── Homepage.png
+│       └── Recipe list page.png
 │
-├── docs/                           # Project documentation
-│   └── CODE_DOCUMENTATION.md       # Comprehensive code documentation
+├── docs/                           # Project documentation (not created yet)
 │
 ├── recipe_project/                 # Django project root
 │   ├── apps/                       # Django applications
@@ -591,20 +578,21 @@ recipe-app/
 │   │       │   ├── 0002_alter_recipe_user.py
 │   │       │   ├── 0003_alter_recipe_pic.py
 │   │       │   ├── 0004_alter_recipe_pic.py
-│   │       │   └── 0005_recipe_category.py
+│   │       │   ├── 0005_recipe_category.py
+│   │       │   └── 0006_alter_recipe_pic.py
 │   │       ├── templates/recipe/   # HTML templates
 │   │       │   ├── recipes_home.html      # Homepage with hero section
 │   │       │   ├── recipes_list.html      # Search and list view
 │   │       │   ├── recipe_detail.html     # Individual recipe page
 │   │       │   ├── recipe_form.html       # Add recipe form
 │   │       │   └── about.html             # About developer page
-│   │       ├── tests/              # Test files (39 tests, 85% coverage)
+│   │       ├── tests/              # Test files (39 tests, 100% coverage)
 │   │       │   ├── __init__.py
-│   │       │   ├── test_models.py          # Model tests (8 tests)
-│   │       │   ├── test_views.py           # Basic view tests (2 tests)
+│   │       │   ├── test_models.py          # Model tests (10 tests)
+│   │       │   ├── test_views.py           # Basic view tests (4 tests)
 │   │       │   ├── test_forms.py           # Form tests (8 tests)
-│   │       │   ├── test_recipes_views.py   # Recipe view tests (13 tests)
-│   │       │   └── test_recipe_list_detail.py  # List/detail tests (8 tests)
+│   │       │   ├── test_recipe_list_detail.py  # List/detail tests (3 tests)
+│   │       │   └── test_recipes_views.py   # Recipe view tests (14 tests)
 │   │       ├── __init__.py
 │   │       ├── admin.py            # Admin configuration (custom styling)
 │   │       ├── apps.py             # App configuration
@@ -624,9 +612,10 @@ recipe-app/
 │   │   ├── asgi.py                 # ASGI configuration
 │   │   ├── urls.py                 # Project URL configuration
 │   │   ├── views.py                # Authentication views (login/signup/logout)
-│   │   └── wsgi.py                 # WSGI configuration
-│   │
-│   ├── config/storage_backends.py  # S3 media storage backend
+│   │   ├── view.py                 # Additional view utilities
+│   │   ├── wsgi.py                 # WSGI configuration
+│   │   ├── storage_backends.py     # S3 media storage backend
+│   │   └── test_runner.py          # Custom test runner configuration
 │   │
 │   ├── templates/                  # Project-level templates
 │   │   ├── admin/                  # Admin customization
@@ -648,8 +637,8 @@ recipe-app/
 │   ├── .coverage                   # Coverage data file
 │   ├── db.sqlite3                  # SQLite database (development only)
 │   ├── manage.py                   # Django management script
-│   ├── Procfile                    # Heroku process file
-│   ├── runtime.txt                 # Python version for Heroku
+│   ├── railway.toml                # Railway configuration file
+│   ├── railway_setup.sh            # Railway setup script
 │   └── requirements.txt            # Python dependencies
 │
 ├── .gitignore                      # Git ignore rules
@@ -680,7 +669,7 @@ recipe-app/
 
 **Tests (recipe_project/apps/recipe/tests/)**
 - 39 comprehensive tests covering models, views, forms
-- 85% code coverage
+- 100% code coverage
 - All tests passing (100% success rate)
 
 ## 📘 API Documentation
@@ -783,7 +772,7 @@ Loads 15 pre-defined recipes across all categories.
 ```bash
 python manage.py test apps.recipe
 ```
-Executes all 39 tests in the recipe app.
+Executes all 40 tests in the recipe app.
 
 **Create Superuser:**
 ```bash
@@ -803,22 +792,10 @@ Advanced search interface with filters for name, ingredient, and difficulty. Dis
 
 ![Recipe List Page](Exercise-2.8/screenshots/Recipe%20list%20page.png)
 
-### 3. Data Visualization
-Interactive charts (bar, pie, line) showing recipe data analysis based on search results.
-
-### 4. Recipe Detail
-Complete recipe information including ingredients list, difficulty, cooking time, and category.
-
-### 5. Add Recipe Form
-User-friendly form for creating new recipes with image upload support.
-
-### 6. Admin Panel
+### 3. Admin Panel
 Custom-styled Django admin with red gradient theme, search, and filter capabilities.
 
 ![Admin Panel](Exercise-2.8/screenshots/Admin%20panel.png)
-
-### 7. About Page
-Developer information with links to GitHub, LinkedIn, and other professional profiles.
 
 ---
 
@@ -872,7 +849,7 @@ Developer information with links to GitHub, LinkedIn, and other professional pro
 - **Static File Serving**: WhiteNoise for efficient static files
 - **Image Processing**: Pillow for optimized image handling
 - **Pagination**: Prevents large data loads (12 items per page)
-- **Coverage Analysis**: 85% code coverage ensures reliability
+- **Coverage Analysis**: 100% code coverage ensures reliability
 
 ## 🤝 Contributing
 
@@ -887,7 +864,7 @@ Contributions, issues, and feature requests are welcome! This project was create
 
 2. **Clone your fork**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/recipe-app.git
+   git clone https://github.com/souravdas090300/recipe-app.git
    cd recipe-app
    ```
 
@@ -1014,8 +991,8 @@ If you have questions or need help with this project:
 
 ### For Developers
 - **Want to contribute?** See [Contributing](#contributing) section
-- **Code questions?** Review the [docs/CODE_DOCUMENTATION.md](docs/CODE_DOCUMENTATION.md)
-- **Test questions?** See [Exercise-2.8/TESTING_REPORT.md](Exercise-2.8/TESTING_REPORT.md)
+- **Code questions?** Review the code documentation in the project files
+- **Test questions?** Run tests with: `cd recipe_project && python manage.py test apps.recipe`
 
 ## 🎓 Exercise 2.8 Submission
 
@@ -1023,7 +1000,7 @@ This project fulfills the requirements for CareerFoundry's Achievement 2, Exerci
 
 ### ✅ Deliverables Completed
 
-1. **Live Website**: https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/
+1. **Live Website**: Deployed on Railway (https://web-production-54550.up.railway.app/)
 2. **GitHub Repository**: https://github.com/souravdas090300/recipe-app
 3. **Exercise 2.8 Folder**: [Exercise-2.8/](Exercise-2.8/)
 
@@ -1036,7 +1013,7 @@ This project fulfills the requirements for CareerFoundry's Achievement 2, Exerci
 - [x] About Me page with professional links
 - [x] 15+ pre-loaded sample recipes
 - [x] Data visualization with multiple chart types
-- [x] Comprehensive test suite (39 tests, 85% coverage)
+- [x] Comprehensive test suite (39 tests, 100% coverage)
 - [x] Production deployment on Heroku
 - [x] Mentor superuser account created
 - [x] Fully documented code
@@ -1046,7 +1023,7 @@ This project fulfills the requirements for CareerFoundry's Achievement 2, Exerci
 ```
 recipe-app/
 ├── Exercise-2.8/              # Exercise submission materials
-├── docs/                      # Code documentation
+│   └── screenshots/            # Application screenshots
 ├── recipe_project/            # Django application
 ├── .gitignore                 # Git ignore rules
 └── README.md                  # This file
@@ -1058,7 +1035,7 @@ recipe-app/
 - ✅ Initial release
 - ✅ Complete Exercise 2.8 requirements
 - ✅ Production deployment on Heroku
-- ✅ 39 tests with 85% coverage
+- ✅ 39 tests with 100% coverage
 - ✅ Full code documentation
 - ✅ 15 sample recipes loaded
 
@@ -1082,11 +1059,9 @@ recipe-app/
 
 ## 📌 Quick Links
 
-- **Live App**: https://recipe-app-cf-sourav-d5b3ff514bd4.herokuapp.com/
+- **Live App**: https://web-production-54550.up.railway.app/
 - **GitHub Repo**: https://github.com/souravdas090300/recipe-app
 - **Exercise Folder**: [Exercise-2.8/](Exercise-2.8/)
-- **Test Report**: [Exercise-2.8/TESTING_REPORT.md](Exercise-2.8/TESTING_REPORT.md)
-- **Code Docs**: [docs/CODE_DOCUMENTATION.md](docs/CODE_DOCUMENTATION.md)
 - **Author**: [@souravdas090300](https://github.com/souravdas090300)
 
 ---
